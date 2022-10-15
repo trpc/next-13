@@ -1,34 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## Sketches
 
-```bash
-npm run dev
-# or
-yarn dev
+I got better understanding now.. seems like Next.js is shifting to be SSR-first.
+
+React Context Providers are also not supported for RSC (unsure if its in the plans at all)
+
+What this means for tRPC is that we'll likely want to create a server-side only hook helper that wouldn't be built on react-query
+
+Sketching a bit....
+
+**1. Entry point for tRPC for `/app` / RSC components:**
+
+```ts
+// /app/trpc.ts
+import { headers } from "next/headers";
+
+import { appRouter } from "~/server/routers/_app"
+import { createTRPCNextLayout } from "~/server/routers/_app"
+import { createContext } from "~/server/context"
+
+if (typeof window !== "undefined") {
+  throw new Error("This should not be imported in the browser")
+}
+
+const trpc = createTRPCNextLayout({ 
+  appRouter,
+  createContext,
+})
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**2. Context creation would use the `next/headers`:**
+```ts
+// /server/context.ts
+import { headers } from "next/headers";
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+export async function createContext() {
+  const cookies = headersList.get("cookie");
+  // do stuff with cookies
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+  return {
+    // [..]
+  }
+}
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**3. .... then, usage could be liiiike**
 
-## Learn More
+```ts
+// /app/page.tsx
+import {trpc} from "~/app/trpc";
 
-To learn more about Next.js, take a look at the following resources:
+export default function Page() {
+  const posts = trpc.post.list();
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  return (
+    <>
+      <h1>Posts</h1>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**4. and mutations could be something like**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```tsx
+"use client";
+import { useRouter } from "next/navigation";
+
+import {trpc} from "~/client/trpc";
+
+export function MyForm() {
+  const router = useRouter();
+
+  return (
+    <>
+      <h2>Add post</h2>
+      <button onClick={async () => {
+        await trpc.post.create.mutate({
+          title: 'hello next.js 13',
+        });
+        router.reload();
+      }}></button>
+    </>
+  );
+}
+```
