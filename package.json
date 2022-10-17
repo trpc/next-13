@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@trpc/server": "10.0.0-proxy-beta.21",
-    "next": "12.3.2-canary.28",
-    "react": "0.0.0-experimental-a8c16a004-20221012",
-    "react-dom": "0.0.0-experimental-a8c16a004-20221012",
+    "next": "12.3.2-canary.29",
+    "react": "0.0.0-experimental-54f297a60-20221017",
+    "react-dom": "0.0.0-experimental-54f297a60-20221017",
     "superjson": "^1.10.1",
     "zod": "^3.19.1"
   },

@@ -7,7 +7,7 @@ export function ReloadButton() {
 
   return (
     <>
-      <button type='button' onClick={() => router.reload()}>
+      <button type='button' onClick={() => router.refresh()}>
         Reload
       </button>
     </>
