@@ -1,4 +1,4 @@
-Just started hacking a bit.
+Just started hacking a bit with tRPC and Next 13. Don't share this repo.
 
 
 ## Overview
