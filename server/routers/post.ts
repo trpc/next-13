@@ -39,6 +39,7 @@ export const postRouter = router({
       return {
         items: items.reverse(),
         nextCursor,
+        random: Math.random(),
       };
     }),
   byId: publicProcedure

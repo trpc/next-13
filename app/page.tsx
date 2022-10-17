@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MyComp } from "./MyComp";
+import { ReloadButton } from "./ReloadButton";
 import { trpc } from "./trpc";
 
 export default function Page() {
@@ -9,7 +9,6 @@ export default function Page() {
   return (
     <>
       <h1>Posts</h1>
-      <pre>{JSON.stringify(postList, null, 4)}</pre>
       <ul>
         {postList.items.map((post) => (
           <li key={post.id}>
@@ -17,7 +16,15 @@ export default function Page() {
           </li>
         ))}
       </ul>
-      <MyComp />
+
+      <details>
+        <summary>Raw data</summary>
+        <pre>{JSON.stringify(postList, null, 4)}</pre>
+      </details>
+
+      <p>
+        <ReloadButton />
+      </p>
     </>
   );
 }
