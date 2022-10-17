@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { experimental_use as use, ReactNode } from "react";
-import { getUser } from "./_lib/getUser";
+import { ReactNode } from "react";
 import { trpc } from "./_lib/trpc";
 
 interface Props {
@@ -33,6 +32,9 @@ export default function RootLayout(props: Props) {
                   <Link href='/api/auth/signin'>Login</Link>
                 </>
               )}
+            </li>
+            <li>
+              <Link href='/secret'>Secret page</Link>
             </li>
           </ul>
         </nav>
