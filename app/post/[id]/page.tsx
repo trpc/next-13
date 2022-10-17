@@ -15,7 +15,11 @@ export default function Page(props: Props) {
     <>
       <h1>{post.title}</h1>
       <p>{post.text}</p>
-      <pre>{JSON.stringify(post, null, 4)}</pre>
+
+      <details>
+        <summary>Raw data</summary>
+        <pre>{JSON.stringify(post, null, 4)}</pre>
+      </details>
     </>
   );
 }
