@@ -19,35 +19,39 @@ interface CreateTRPCNextLayoutOptions<TRouter extends AnyRouter> {
 /**
  * @internal
  */
-export type DecorateProcedure<
-  TProcedure extends AnyProcedure,
-  TPath extends string,
-> = TProcedure extends AnyQueryProcedure
-  ? {
-      use(
-        input: inferProcedureInput<TProcedure>,
-        // FIXME: maybe this should be cache options?
-        // opts?:
-      ): inferProcedureOutput<TProcedure>;
-    }
-  : never;
+export type DecorateProcedure<TProcedure extends AnyProcedure> =
+  TProcedure extends AnyQueryProcedure
+    ? {
+        use(
+          input: inferProcedureInput<TProcedure>,
+          // FIXME: maybe this should be cache options?
+          // opts?:
+        ): inferProcedureOutput<TProcedure>;
+      }
+    : never;
 
+type OmitNever<TType> = Pick<
+  TType,
+  {
+    [K in keyof TType]: TType[K] extends never ? never : K;
+  }[keyof TType]
+>;
 /**
  * @internal
  */
 export type DecoratedProcedureRecord<
   TProcedures extends ProcedureRouterRecord,
   TPath extends string = "",
-> = {
+> = OmitNever<{
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
     ? DecoratedProcedureRecord<
         TProcedures[TKey]["_def"]["record"],
         `${TPath}${TKey & string}.`
       >
-    : TProcedures[TKey] extends AnyProcedure
-    ? DecorateProcedure<TProcedures[TKey], `${TPath}${TKey & string}`>
+    : TProcedures[TKey] extends AnyQueryProcedure
+    ? DecorateProcedure<TProcedures[TKey]>
     : never;
-};
+}>;
 
 export function createTRPCNextLayout<TRouter extends AnyRouter>(
   opts: CreateTRPCNextLayoutOptions<TRouter>,
