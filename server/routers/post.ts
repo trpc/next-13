@@ -37,7 +37,7 @@ export const postRouter = router({
       }
 
       return {
-        items: items.reverse(),
+        items,
         nextCursor,
         random: Math.random(),
       };
