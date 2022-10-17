@@ -48,7 +48,7 @@ export const postRouter = router({
       }),
     )
     .query(async ({ input }) => {
-      const post = posts.findIndex((p) => p.id === input.id);
+      const post = posts.find((p) => p.id === input.id);
       if (!post) {
         throw new TRPCError({
           code: "NOT_FOUND",

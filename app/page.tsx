@@ -1,33 +1,22 @@
-import { experimental_use as use } from "react";
-import { headers } from "next/headers";
+import Link from "next/link";
 import { MyComp } from "./MyComp";
-
-// The return value is *not* serialized, so you can return Date, Map, Set, etc.
-async function getHeaders() {
-  await new Promise((resolve) => setTimeout(resolve, 100));
-
-  const headersList = headers();
-  const referer = headersList.get("referer");
-  const cookies = headersList.get("cookie");
-
-  const res = Object.entries(headers);
-
-  console.log({ res, referer, cookies });
-
-  return {
-    time: new Date(),
-    cookies,
-  };
-}
+import { trpc } from "./trpc";
 
 export default function Page() {
-  // This value is fully typed
-  const headers = use(getHeaders());
+  const postList = trpc.post.list.use({});
+  console.log({ posts: postList });
 
   return (
     <>
-      <h1>Headers</h1>
-      <pre>{JSON.stringify(headers, null, 2)}</pre>
+      <h1>Posts</h1>
+      <pre>{JSON.stringify(postList, null, 4)}</pre>
+      <ul>
+        {postList.items.map((post) => (
+          <li key={post.id}>
+            <Link href={`/post/${post.id}`}>{post.title}</Link>
+          </li>
+        ))}
+      </ul>
       <MyComp />
     </>
   );
