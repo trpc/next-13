@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReloadButton } from "./ReloadButton";
-import { trpc } from "./trpc";
+import { trpc } from "./_lib/trpc";
 
 export default function Page() {
   const postList = trpc.post.list.use({});
