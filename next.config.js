@@ -5,10 +5,8 @@ const { env } = require('./server/env');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
   experimental: {
     appDir: true,
-    runtime: "experimental-edge",
   },
 };
 
