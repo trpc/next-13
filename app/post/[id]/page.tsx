@@ -1,5 +1,4 @@
-import { NextPageContext } from "next";
-import { trpc } from "~/app/trpc";
+import { trpc } from "~/app/_lib/trpc";
 
 // FIXME is there proper typing of this?
 interface Props {

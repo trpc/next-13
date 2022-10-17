@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
+import { unstable_getServerSession } from "next-auth";
 import { headers } from "next/headers";
+import { getUser, User } from "~/app/_lib/getUser";
+import { nextAuthOptions } from "~/pages/api/auth/[...nextauth]";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CreateContextOptions {
-  // session: Session | null
+  user: User | null;
   rsc: boolean;
 }
 
@@ -13,10 +16,10 @@ interface CreateContextOptions {
  * Inner function for `createContext` where we create the context.
  * This is useful for testing when we don't want to mock Next.js' request/response
  */
-export async function createContextInner(
-  _opts: CreateContextOptions | undefined,
-) {
-  return {};
+export async function createContextInner(opts: CreateContextOptions) {
+  return {
+    user: opts.user,
+  };
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
@@ -32,13 +35,22 @@ export async function createContext(
 
   if (!opts) {
     // RSC
-    return {
+    return createContextInner({
       rsc: true,
-    };
-  } else {
-    // not RSC
-    return await createContextInner({
-      rsc: false,
+      user: await getUser(),
     });
   }
+  // not RSC
+  const session = await unstable_getServerSession(
+    opts.req,
+    opts.res,
+    nextAuthOptions,
+  );
+
+  // FIXME fix auth for api requests
+  console.log({ session });
+  return await createContextInner({
+    rsc: false,
+    user: null,
+  });
 }
