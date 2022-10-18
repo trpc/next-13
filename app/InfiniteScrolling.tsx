@@ -26,15 +26,13 @@ export function InfiniteScrolling(props: {
       ))}
       <button
         onClick={async () => {
-          console.log("hello");
-          if (!loading) {
+          if (loading) {
             return;
           }
           setLoading(true);
           const nextPage = await client.post.list.query({
             cursor,
           });
-          console.log({ nextPage });
           setCursor(nextPage.nextCursor);
           setLoadedPages((prev) => [...prev, nextPage]);
           setLoading(false);
