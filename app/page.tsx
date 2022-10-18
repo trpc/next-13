@@ -4,7 +4,6 @@ import { trpc } from "./_lib/trpc";
 
 export default function Page() {
   const postList = trpc.post.list.use({});
-  console.log({ posts: postList });
 
   return (
     <>
