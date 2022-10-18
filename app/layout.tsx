@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { RefreshButton } from "./RefreshButton";
 import { trpc } from "./_lib/trpc";
 
 interface Props {
@@ -35,6 +36,9 @@ export default function RootLayout(props: Props) {
             </li>
             <li>
               <Link href='/secret'>Secret page</Link>
+            </li>
+            <li>
+              <RefreshButton />
             </li>
           </ul>
         </nav>
