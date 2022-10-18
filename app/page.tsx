@@ -13,17 +13,18 @@ export default function Page() {
         First posts are fetched with RSC, the infinite scrolling is through
         client
       </p>
+
+      <details>
+        <summary>Raw RSC data</summary>
+        <pre>{JSON.stringify(postList, null, 4)}</pre>
+      </details>
+
       <ul>
         {postList.items.map((post) => (
           <PostListItem key={post.id} post={post} />
         ))}
         <InfiniteScrolling cursor={postList.nextCursor} />
       </ul>
-
-      <details>
-        <summary>Raw RSC data</summary>
-        <pre>{JSON.stringify(postList, null, 4)}</pre>
-      </details>
     </>
   );
 }
