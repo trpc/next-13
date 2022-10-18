@@ -11,7 +11,7 @@ type Post = {
   title: string;
   text: string;
 };
-const posts = new Array(200).fill(null).map(
+const posts = new Array(24).fill(null).map(
   (_, index): Post => ({
     id: `${index + 1}`,
     title: `Post ${index + 1}`,
