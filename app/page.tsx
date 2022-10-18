@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ReloadButton } from "./ReloadButton";
+import { InfiniteScrolling } from "./InfiniteScrolling";
+import { PostListItem } from "./PostListItem";
 import { trpc } from "./_lib/trpc";
 
 export default function Page() {
@@ -9,22 +9,21 @@ export default function Page() {
   return (
     <>
       <h1>Posts</h1>
+      <p>
+        First posts are fetched with RSC, the infinite scrolling is through
+        client
+      </p>
       <ul>
         {postList.items.map((post) => (
-          <li key={post.id}>
-            <Link href={`/post/${post.id}`}>{post.title}</Link>
-          </li>
+          <PostListItem key={post.id} post={post} />
         ))}
+        <InfiniteScrolling cursor={postList.nextCursor} />
       </ul>
 
       <details>
-        <summary>Raw data</summary>
+        <summary>Raw RSC data</summary>
         <pre>{JSON.stringify(postList, null, 4)}</pre>
       </details>
-
-      <p>
-        <ReloadButton />
-      </p>
     </>
   );
 }
