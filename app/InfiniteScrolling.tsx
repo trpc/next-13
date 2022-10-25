@@ -25,6 +25,7 @@ export function InfiniteScrolling(props: {
         </Fragment>
       ))}
       <button
+        disabled={!cursor}
         onClick={async () => {
           if (loading) {
             return;

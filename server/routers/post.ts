@@ -32,9 +32,10 @@ export const postRouter = router({
 
       const idxCursor = cursor ? posts.findIndex((p) => p.id === cursor) : 0;
 
-      console.log({ idxCursor });
-
-      const items = posts.slice(idxCursor, idxCursor + input.limit + 1);
+      const items = posts.slice(
+        idxCursor,
+        Math.min(idxCursor + input.limit + 1, posts.length),
+      );
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > input.limit) {
         // Remove the last item and use it as next cursor

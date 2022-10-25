@@ -48,7 +48,6 @@ export async function createContext(
   );
 
   // FIXME fix auth for api requests
-  console.log({ session });
   return await createContextInner({
     rsc: false,
     user: null,
