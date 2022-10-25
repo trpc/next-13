@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Types } from "~/shared/utils";
+import type { Types } from "~/shared/utils";
 
 export type PostListOutput = Types["post"]["list"]["output"];
 type ListItem = PostListOutput["items"][number];

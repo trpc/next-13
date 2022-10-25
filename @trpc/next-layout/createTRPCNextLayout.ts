@@ -9,7 +9,7 @@ import {
   ProcedureRouterRecord,
 } from "@trpc/server";
 import { createRecursiveProxy } from "@trpc/server/shared";
-import { experimental_use as use } from "react";
+import { use } from "react";
 
 interface CreateTRPCNextLayoutOptions<TRouter extends AnyRouter> {
   router: TRouter;
