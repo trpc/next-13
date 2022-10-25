@@ -1,4 +1,4 @@
-Just started hacking a bit with tRPC and Next 13. Don't share this repo.
+Just started hacking a bit with tRPC and Next 13. 
 
 
 ## Overview
@@ -7,4 +7,3 @@ Just started hacking a bit with tRPC and Next 13. Don't share this repo.
 - See the [Issues](https://github.com/trpc/next-13/issues) for things I want us to hack on
 - If you're invited here, feel free to add whatever you want to get a feel of Next 13 + tRPC combo
 - Deployed at [rsc.trpc.io](https://rsc.trpc.io/)
-
