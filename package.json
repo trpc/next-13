@@ -11,10 +11,10 @@
   "dependencies": {
     "@trpc/client": "10.0.0-proxy-beta.21",
     "@trpc/server": "10.0.0-proxy-beta.21",
-    "next": "12.3.2-canary.29",
+    "next": "^13.0.0",
     "next-auth": "4.14.0",
-    "react": "0.0.0-experimental-9cdf8a99e-20221018",
-    "react-dom": "0.0.0-experimental-9cdf8a99e-20221018",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "superjson": "^1.10.1",
     "zod": "^3.19.1"
   },

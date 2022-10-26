@@ -1,8 +1,14 @@
 import { createTRPCNextLayout } from "~/@trpc/next-layout";
 import { createContext } from "~/server/context";
 import { appRouter } from "~/server/routers/_app";
+import { getUser } from "./getUser";
 
 export const trpc = createTRPCNextLayout({
   router: appRouter,
-  createContext,
+  createContext() {
+    return createContext({
+      type: "rsc",
+      getUser,
+    });
+  },
 });

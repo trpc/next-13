@@ -4,5 +4,10 @@ import { appRouter } from "~/server/routers/_app";
 
 export default createNextApiHandler({
   router: appRouter,
-  createContext,
+  createContext(opts) {
+    return createContext({
+      type: "api",
+      ...opts,
+    });
+  },
 });
