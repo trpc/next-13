@@ -1,7 +1,7 @@
 // @ts-check
 
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { env } = require('./server/env');
+import { env as _env } from "./server/env";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,4 +10,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig
+export default nextConfig;

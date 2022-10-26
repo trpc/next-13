@@ -41,16 +41,16 @@ export function CreatePostForm() {
         setLoading(false);
       }}
     >
-      <label htmlFor='title'>Title:</label>
+      <label htmlFor="title">Title:</label>
       <br />
-      <input id='title' name='title' type='text' disabled={loading} />
+      <input id="title" name="title" type="text" disabled={loading} />
 
       <br />
-      <label htmlFor='text'>Text:</label>
+      <label htmlFor="text">Text:</label>
       <br />
-      <textarea id='text' name='text' disabled={loading} />
+      <textarea id="text" name="text" disabled={loading} />
       <br />
-      <input type='submit' disabled={loading} />
+      <input type="submit" disabled={loading} />
     </form>
   );
 }

@@ -8,8 +8,10 @@ export default function Page(props: FIXMEType) {
   return (
     <div className="p-4">
       <div className="flex items-center gap-2">
-      <Link href="/post" className="font-bold hover:text-gray-300">&lt;</Link>
-      <h1 className="text-2xl">{post.title}</h1>
+        <Link href="/post" className="font-bold hover:text-gray-300">
+          &lt;
+        </Link>
+        <h1 className="text-2xl">{post.title}</h1>
       </div>
       <p>{post.text}</p>
 
