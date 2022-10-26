@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@trpc/client': 10.0.0-proxy-beta.21
-  '@trpc/server': 10.0.0-proxy-beta.21
+  '@trpc/client': 10.0.0-rc.0
+  '@trpc/server': 10.0.0-rc.0
   '@types/node': 18.8.5
   '@types/react': 18.0.21
   '@typescript-eslint/eslint-plugin': ^5.37.0
@@ -18,8 +18,8 @@ specifiers:
   zod: ^3.19.1
 
 dependencies:
-  '@trpc/client': 10.0.0-proxy-beta.21_rd7vj7t4d65pc73uf3ugp2du5a
-  '@trpc/server': 10.0.0-proxy-beta.21
+  '@trpc/client': 10.0.0-rc.0_@trpc+server@10.0.0-rc.0
+  '@trpc/server': 10.0.0-rc.0
   next: 13.0.0_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.14.0_r5sq4deac3rmm2d5onhwvomqve
   react: 18.2.0
@@ -251,16 +251,16 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@trpc/client/10.0.0-proxy-beta.21_rd7vj7t4d65pc73uf3ugp2du5a:
-    resolution: {integrity: sha512-vjNetqOEhr/aLLEFr4c/QLOTPQH8xFQ3SPG7p7s9PKuv4QFzyHL7C49XNzEh2rp+A5f5D01pM0LXGl6Lf0whZA==}
+  /@trpc/client/10.0.0-rc.0_@trpc+server@10.0.0-rc.0:
+    resolution: {integrity: sha512-JqOE1GRwao1mp3UtY2AVB8iIMMryRMSwAJWZ/wMCI0UCuQn+Px6OSQx5OLvs9Yh8DR6QLJmvDOrx6/OT3fG/iQ==}
     peerDependencies:
-      '@trpc/server': 10.0.0-proxy-beta.21
+      '@trpc/server': 10.0.0-rc.0
     dependencies:
-      '@trpc/server': 10.0.0-proxy-beta.21
+      '@trpc/server': 10.0.0-rc.0
     dev: false
 
-  /@trpc/server/10.0.0-proxy-beta.21:
-    resolution: {integrity: sha512-FLkBn8K4tFeuhjcljehzak5b4ZGRCTUn1SJq3tecCBVUsDXiQ8ex/PG/a2W1V9Ji/st6uIK7U2D/EUgsE7ZzcQ==}
+  /@trpc/server/10.0.0-rc.0:
+    resolution: {integrity: sha512-rLVnHrhrTM4xBheIfqtH1QojgWRCOSbJRw7wr6SVB3yRjCCsU+AZnSrhchMLuDW7Q59r+x3rpH3Wd6BlkydWWg==}
     dev: false
 
   /@types/json-schema/7.0.11:

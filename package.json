@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@trpc/client": "10.0.0-proxy-beta.21",
-    "@trpc/server": "10.0.0-proxy-beta.21",
+    "@trpc/client": "10.0.0-rc.0",
+    "@trpc/server": "10.0.0-rc.0",
     "next": "^13.0.0",
     "next-auth": "4.14.0",
     "react": "^18.2.0",
