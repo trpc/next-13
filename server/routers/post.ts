@@ -78,6 +78,7 @@ export const postRouter = router({
         id: `${Math.random()}`,
         ...input,
       };
+      posts.unshift(post);
       return post;
     }),
 });

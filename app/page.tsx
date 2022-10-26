@@ -1,6 +1,7 @@
 import { InfiniteScrolling } from "./InfiniteScrolling";
 import { PostListItem } from "./PostListItem";
 import { trpc } from "../applib/trpc";
+import { CreatePostForm } from "./CreatePostForm";
 
 export default function Page() {
   const postList = trpc.post.list.use({});
@@ -24,6 +25,8 @@ export default function Page() {
         ))}
         <InfiniteScrolling cursor={postList.nextCursor} />
       </ul>
+
+      <CreatePostForm />
     </>
   );
 }
