@@ -1,32 +1,8 @@
-import { InfiniteScrolling } from "./InfiniteScrolling";
-import { PostListItem } from "./PostListItem";
-import { trpc } from "../applib/trpc";
-import { CreatePostForm } from "./CreatePostForm";
-
 export default function Page() {
-  const postList = trpc.post.list.use({});
-
   return (
-    <>
-      <h1>Posts</h1>
-      <p>
-        First posts are fetched with RSC, the infinite scrolling is through
-        client
-      </p>
-
-      <details>
-        <summary>Raw RSC data</summary>
-        <pre>{JSON.stringify(postList, null, 4)}</pre>
-      </details>
-
-      <ul>
-        {postList.items.map((post) => (
-          <PostListItem key={post.id} post={post} />
-        ))}
-        <InfiniteScrolling cursor={postList.nextCursor} />
-      </ul>
-
-      <CreatePostForm />
-    </>
+    <div className="flex items-center justify-center flex-col">
+      <h1 className="text-2xl font-semibold my-6">tRPC 🤝 Next 13</h1>
+      <p>This is a playground for tRPC using Next.js 13 with React Server Components</p>
+    </div>
   );
 }

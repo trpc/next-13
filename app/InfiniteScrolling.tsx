@@ -26,6 +26,7 @@ export function InfiniteScrolling(props: {
       ))}
       <button
         disabled={!cursor}
+        className={`${!cursor ? "opacity-50" : ""}`}
         onClick={async () => {
           if (loading) {
             return;
