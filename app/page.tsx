@@ -1,6 +1,6 @@
 import { InfiniteScrolling } from "./InfiniteScrolling";
 import { PostListItem } from "./PostListItem";
-import { trpc } from "./_lib/trpc";
+import { trpc } from "../applib/trpc";
 
 export default function Page() {
   const postList = trpc.post.list.use({});

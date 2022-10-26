@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { RefreshButton } from "./RefreshButton";
-import { trpc } from "./_lib/trpc";
+import { trpc } from "../applib/trpc";
 
 interface Props {
   // FIXME is there typing for this?
