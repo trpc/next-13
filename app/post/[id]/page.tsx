@@ -1,4 +1,4 @@
-import { trpc } from "~/app/_lib/trpc";
+import { trpc } from "~/applib/trpc";
 
 type FIXMEType = any;
 export default function Page(props: FIXMEType) {
