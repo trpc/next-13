@@ -50,7 +50,7 @@ export async function createContext(
   );
   return {
     type: opts.type,
-    user: session,
+    user: session?.user,
   };
 }
 

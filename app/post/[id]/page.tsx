@@ -1,13 +1,7 @@
 import { trpc } from "~/app/_lib/trpc";
 
-// FIXME is there proper typing of this?
-interface Props {
-  params: {
-    id: string;
-  };
-  searchParams: Record<string, string | undefined>;
-}
-export default function Page(props: Props) {
+type FIXMEType = any;
+export default function Page(props: FIXMEType) {
   const post = trpc.post.byId.use({ id: props.params.id });
 
   return (
