@@ -7,8 +7,9 @@ type ListItem = PostListOutput["items"][number];
 export function PostListItem(props: { post: ListItem }) {
   const { post } = props;
   return (
-    <li>
-      <Link href={`/post/${post.id}`}>{post.title}</Link>
-    </li>
+    <article key={post.id}>
+      <h3>{post.title}</h3>
+      <Link href={`/post/${post.id}`}>View more</Link>
+    </article>
   );
 }

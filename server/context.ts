@@ -2,7 +2,7 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { unstable_getServerSession } from "next-auth";
-import { getUser, User } from "~/applib/getUser";
+import { getUser, User } from "~/server-rsc/getUser";
 import { nextAuthOptions } from "~/pages/api/auth/[...nextauth]";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

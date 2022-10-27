@@ -1,7 +1,7 @@
-import { trpc } from "../../applib/trpc";
+import { rsctrpc } from "../../server-rsc/trpc";
 
 export default function Page() {
-  const secret = trpc.secret.use();
+  const secret = rsctrpc.secret.use();
 
   return <>Secret {secret}</>;
 }
