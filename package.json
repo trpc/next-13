@@ -4,17 +4,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:postgres": "prisma migrate deploy",
+    "build:next": "next build",
+    "build": "run-s build:*",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev-migrate": "prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/client": "^4.5.0",
     "@tanstack/react-query": "^4.13.0",
     "@trpc/client": "^10.0.0-rc.1",
     "@trpc/react-query": "^10.0.0-rc.1",
     "@trpc/server": "^10.0.0-rc.1",
     "next": "^13.0.0",
     "next-auth": "4.14.0",
+    "prisma": "^4.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.10.1",
