@@ -25,10 +25,11 @@ export const postRouter = router({
       z.object({
         limit: z.number().min(1).max(100).optional().default(10),
         cursor: z.string().nullish(),
+        initialCursor: z.string().nullish(),
       }),
     )
     .query(async ({ input }) => {
-      const { cursor } = input;
+      const cursor = input.cursor ?? input.initialCursor;
 
       const idxCursor = cursor ? posts.findIndex((p) => p.id === cursor) : 0;
 

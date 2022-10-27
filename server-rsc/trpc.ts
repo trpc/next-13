@@ -3,7 +3,7 @@ import { createContext } from "~/server/context";
 import { appRouter } from "~/server/routers/_app";
 import { getUser } from "./getUser";
 
-export const trpc = createTRPCNextLayout({
+export const rsc = createTRPCNextLayout({
   router: appRouter,
   createContext() {
     return createContext({
