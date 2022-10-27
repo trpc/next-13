@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { RefreshButton } from "../client/RefreshButton";
-import { rsctrpc } from "../server-rsc/trpc";
+import { rsc } from "../server-rsc/trpc";
 
 interface Props {
   // FIXME is there typing for this?
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function RootLayout(props: Props) {
-  const user = rsctrpc.whoami.use();
+  const user = rsc.whoami.use();
   return (
     <html lang='en'>
       <head>

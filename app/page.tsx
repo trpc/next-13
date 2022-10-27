@@ -1,10 +1,10 @@
 import { InfiniteScrolling } from "../client/InfiniteScrolling";
 import { PostListItem } from "./PostListItem";
-import { rsctrpc } from "../server-rsc/trpc";
+import { rsc } from "../server-rsc/trpc";
 import { ClientProvider } from "~/client/trpcClient";
 
 export default function Page() {
-  const postList = rsctrpc.post.list.use({});
+  const postList = rsc.post.list.use({});
 
   return (
     <>

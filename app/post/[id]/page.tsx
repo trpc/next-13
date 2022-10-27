@@ -1,8 +1,8 @@
-import { rsctrpc } from "~/server-rsc/trpc";
+import { rsc } from "~/server-rsc/trpc";
 
 type FIXMEType = any;
 export default function Page(props: FIXMEType) {
-  const post = rsctrpc.post.byId.use({ id: props.params.id });
+  const post = rsc.post.byId.use({ id: props.params.id });
 
   return (
     <>
