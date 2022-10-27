@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { Types } from "~/shared/utils";
+import { Outputs } from "~/shared/utils";
 
-export type PostListOutput = Types["post"]["list"]["output"];
+export type PostListOutput = Outputs["post"]["list"];
 type ListItem = PostListOutput["items"][number];
 
 export function PostListItem(props: { post: ListItem }) {
