@@ -42,8 +42,8 @@ export const postRouter = router({
 
       const items = await prisma.post.findMany({
         select: defaultPostSelect,
-        // get an extra item at the end which we'll use as next cursor
-        take: limit + 2,
+        // get an extra item on each side
+        take: limit + (cursor ? 2 : 1),
         where: {},
         cursor: cursor
           ? {

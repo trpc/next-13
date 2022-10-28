@@ -6,7 +6,7 @@ import { PostListItem } from "../app/PostListItem";
 import { useIsIntersecting } from "./useIsIntersecting";
 
 export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
-  const [isVisible, ref] = useIsIntersecting<HTMLButtonElement>();
+  const [isVisible, ref] = useIsIntersecting<HTMLDivElement>();
   // FIXME how can I make this not eagerly fetch until "fetchPreviousPage()" is called?
   const query = trpc.post.list.useInfiniteQuery(
     {
@@ -39,24 +39,23 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
           ))}
         </Fragment>
       ))}
-      <div>
-        <button
-          ref={ref}
-          disabled={!props.nextCursor || query.isFetching || !query.hasNextPage}
-          onClick={() => {
-            query.fetchPreviousPage();
-          }}
-          className={
-            "p-4 w-full cursor-pointer" +
-            (query.isFetching || !query.hasNextPage ? " opacity-50" : "")
-          }
-        >
-          {query.isFetching
-            ? "Loading..."
-            : !query.hasNextPage
-            ? "You loaded everything"
-            : "Load more"}
-        </button>
+      <div ref={ref}>
+        {query.isFetchingNextPage ? (
+          <PostListItem.Skeleton />
+        ) : (
+          <button
+            disabled={!props.nextCursor || !query.hasNextPage}
+            onClick={() => {
+              query.fetchNextPage();
+            }}
+            className={
+              "p-4 w-full cursor-pointer" +
+              (!query.hasNextPage ? " opacity-50" : "")
+            }
+          >
+            {query.hasNextPage ? "Load more" : "You loaded everything"}
+          </button>
+        )}
       </div>
     </>
   );
