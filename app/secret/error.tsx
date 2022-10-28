@@ -16,7 +16,7 @@ export default function Error({
 
   return (
     <p style={{ border: "1px solid red", padding: "4px" }}>
-      Something went wrong - {error.message}
+      Something went wrong, are you signed in?
     </p>
   );
 }

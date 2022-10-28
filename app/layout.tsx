@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { ClientProvider } from "~/client/trpcClient";
-import { RefreshButton } from "../client/RefreshButton";
 import { rsc } from "../server-rsc/trpc";
 
 interface Props {
@@ -18,29 +17,33 @@ export default function RootLayout(props: Props) {
           <title>Next.js hello</title>
         </head>
         <body>
-          <nav>
-            <ul>
+          <nav className='p-4'>
+            <ul className='flex flex-col sm:flex-row space-y-2 sm:space-y-0 space-x-2 justify-center items-center'>
               <li>
-                <Link href='/'>Home</Link>
+                <Link href='/' className='text-indigo-500 underline'>
+                  Home
+                </Link>
               </li>
               <li>
-                Logged in as{" "}
+                <Link href='/secret' className='text-indigo-500 underline'>
+                  Secret page
+                </Link>
+              </li>
+              <li>
                 {user ? (
                   <>
-                    {user.name} - <Link href='/api/auth/signout'>Logout</Link>
+                    Hi {user.name}
+                    <Link href='/api/auth/signout' className='Logout'>
+                      Logout
+                    </Link>
                   </>
                 ) : (
                   <>
-                    Not logged in - login{" "}
-                    <Link href='/api/auth/signin'>Login</Link>
+                    <Link href='/api/auth/signin' className='button'>
+                      Login
+                    </Link>
                   </>
                 )}
-              </li>
-              <li>
-                <Link href='/secret'>Secret page</Link>
-              </li>
-              <li>
-                <RefreshButton />
               </li>
             </ul>
           </nav>
