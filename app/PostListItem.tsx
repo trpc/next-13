@@ -13,7 +13,7 @@ export function PostListItem(props: { post: ListItem }) {
       href={`/post/${post.id}`}
       className='block hover:bg-gray-50 px-4 py-4 sm:px-6"'
     >
-      <article key={post.id}>
+      <article>
         <div className='flex items-center justify-between'>
           <p className='truncate text-sm font-medium text-indigo-600'>
             {post.title}
@@ -38,3 +38,14 @@ export function PostListItem(props: { post: ListItem }) {
     </Link>
   );
 }
+
+PostListItem.Skeleton = function PostListItemSkeleton() {
+  return (
+    <div className='block hover:bg-gray-50 px-4 py-4 sm:px-6"'>
+      <div className='h-4 w-1/2 bg-gray-300 rounded animate-pulse'></div>
+      <div className='mt-2'>
+        <div className='h-2 w-1/2 bg-gray-300 rounded animate-pulse'></div>
+      </div>
+    </div>
+  );
+};

@@ -4,20 +4,31 @@ import { CreatePostForm } from "~/client/CreatePostForm";
 import { InfiniteScrolling } from "~/client/InfiniteScrolling";
 import { rsc } from "../server-rsc/trpc";
 import { PostListItem } from "./PostListItem";
-import { Suspense } from "react";
+import { Suspense, use } from "react";
 
 function PostList() {
   const postList = rsc.post.list.use({});
+  use(new Promise((resolve) => setTimeout(resolve, 1000)));
 
   return (
-    <ul role='list' className='divide-y divide-gray-200'>
+    <>
       {postList.items.map((post) => (
         <PostListItem key={post.id} post={post} />
       ))}
       <InfiniteScrolling nextCursor={postList.nextCursor} />
-    </ul>
+    </>
   );
 }
+
+PostList.Skeleton = function PostListSkeleton() {
+  return (
+    <>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <PostListItem.Skeleton key={i} />
+      ))}
+    </>
+  );
+};
 export default function Page() {
   return (
     <div className='space-y-6 p-4'>
@@ -38,9 +49,11 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <Suspense fallback={<>Loading...</>}>
-            <PostList />
-          </Suspense>
+          <ul role='list' className='divide-y divide-gray-200'>
+            <Suspense fallback={<PostList.Skeleton />}>
+              <PostList />
+            </Suspense>
+          </ul>
         </div>
       </section>
     </div>
