@@ -26,7 +26,10 @@ const t = initTRPC.context<Context>().create({
       ...shape,
       data: {
         ...shape.data,
-        zod: error.cause instanceof ZodError ? error.cause.errors : null,
+        zod:
+          error.cause instanceof ZodError
+            ? error.cause.flatten().fieldErrors
+            : null,
       },
     };
   },
@@ -62,6 +65,7 @@ export const privateProcedure = t.procedure.use((opts) => {
   if (!opts.ctx.user) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
+      message: "You have to be logged in to do this",
     });
   }
   return opts.next({

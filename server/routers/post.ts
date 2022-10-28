@@ -2,7 +2,7 @@
  *
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, privateProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -92,12 +92,12 @@ export const postRouter = router({
       }
       return post;
     }),
-  add: publicProcedure
+  add: privateProcedure
     .input(
       z.object({
         id: z.string().uuid().optional(),
-        title: z.string().min(1).max(32),
-        text: z.string().min(1),
+        title: z.string().min(1, "Required").max(32),
+        text: z.string().min(5),
       }),
     )
     .mutation(async ({ input }) => {

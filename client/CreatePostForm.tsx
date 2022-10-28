@@ -40,11 +40,17 @@ export function CreatePostForm() {
       <label htmlFor='title'>Title:</label>
       <br />
       <input id='title' name='title' type='text' disabled={addPost.isLoading} />
+      {addPost.error?.data?.zod?.title && (
+        <div style={{ color: "red" }}>{addPost.error?.data?.zod?.title}</div>
+      )}
 
       <br />
       <label htmlFor='text'>Text:</label>
       <br />
       <textarea id='text' name='text' disabled={addPost.isLoading} />
+      {addPost.error?.data?.zod?.text && (
+        <div style={{ color: "red" }}>{addPost.error?.data?.zod?.text}</div>
+      )}
       <br />
       <input type='submit' disabled={addPost.isLoading} />
       {addPost.error && (

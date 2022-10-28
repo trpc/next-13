@@ -20,15 +20,13 @@ export default function Page() {
         <pre>{JSON.stringify(postList, null, 4)}</pre>
       </details>
 
-      <ClientProvider>
-        <h2>Add post</h2>
-        <CreatePostForm />
-        <h2>All posts</h2>
-        {postList.items.map((post) => (
-          <PostListItem key={post.id} post={post} />
-        ))}
-        <InfiniteScrolling nextCursor={postList.nextCursor} />
-      </ClientProvider>
+      <h2>Add post</h2>
+      <CreatePostForm />
+      <h2>All posts</h2>
+      {postList.items.map((post) => (
+        <PostListItem key={post.id} post={post} />
+      ))}
+      <InfiniteScrolling nextCursor={postList.nextCursor} />
     </>
   );
 }
