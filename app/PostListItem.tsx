@@ -29,7 +29,7 @@ export function PostListItem(props: { post: ListItem }) {
             <p>
               Added on{" "}
               <time dateTime={post.createdAt.toISOString()}>
-                {post.createdAt.toISOString()}
+                {post.createdAt.toLocaleDateString("en-us")}
               </time>
             </p>
           </div>

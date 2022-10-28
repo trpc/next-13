@@ -36,8 +36,8 @@ export default function RootLayout(props: Props) {
               <li>
                 {user ? (
                   <>
-                    Hi {user.name}
-                    <Link href='/api/auth/signout' className='Logout'>
+                    Hi <em>{user.name}</em>.{" "}
+                    <Link href='/api/auth/signout' className='underline'>
                       Logout
                     </Link>
                   </>
