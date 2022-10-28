@@ -43,7 +43,7 @@ export const postRouter = router({
       const items = await prisma.post.findMany({
         select: defaultPostSelect,
         // get an extra item at the end which we'll use as next cursor
-        take: limit + 1,
+        take: limit + 2,
         where: {},
         cursor: cursor
           ? {
@@ -56,12 +56,15 @@ export const postRouter = router({
       });
       let nextCursor: string | undefined = undefined;
 
+      if (cursor) {
+        items.shift();
+      }
       if (items.length > limit) {
         // Remove the last item and use it as next cursor
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const nextItem = items.pop()!;
-        nextCursor = nextItem.id;
+        items.pop()!;
+        nextCursor = items[items.length - 1].id;
       }
 
       return {
