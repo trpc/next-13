@@ -10,8 +10,8 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
       initialCursor: props.nextCursor || null,
     },
     {
-      getNextPageParam(page) {
-        return page.nextCursor;
+      getPreviousPageParam(lastPage) {
+        return lastPage.nextCursor;
       },
       refetchOnMount: false,
       staleTime: Infinity,
@@ -20,9 +20,11 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
   return (
     <>
       <button
-        disabled={!props.nextCursor || query.isFetching || !query.hasNextPage}
-        onClick={async () => {
-          query.fetchNextPage();
+        disabled={
+          !props.nextCursor || query.isFetching || !query.hasPreviousPage
+        }
+        onClick={() => {
+          query.fetchPreviousPage();
         }}
       >
         {query.isFetching ? "Loading..." : "Load more"}
