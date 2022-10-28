@@ -3,9 +3,7 @@ import React from "react";
 
 export function useIsIntersecting<TElement extends HTMLElement>() {
   // to prevents runtime crash in IE, let's mark it true right away
-  const [isIntersecting, setIsIntersecting] = React.useState(
-    typeof IntersectionObserver !== "function",
-  );
+  const [isIntersecting, setIsIntersecting] = React.useState(false);
 
   const ref = React.useRef<TElement>(null);
 
