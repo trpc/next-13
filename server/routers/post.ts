@@ -65,7 +65,7 @@ export const postRouter = router({
       }
 
       return {
-        items: items.reverse(),
+        items: items,
         nextCursor,
       };
     }),
