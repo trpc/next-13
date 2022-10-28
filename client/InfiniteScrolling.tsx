@@ -16,6 +16,7 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
       },
       refetchOnMount: false,
       staleTime: Infinity,
+      keepPreviousData: true,
     },
   );
   return (
