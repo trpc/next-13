@@ -1,15 +1,17 @@
+// This is `.jsx` b/c of https://github.com/vercel/next.js/discussions/41745#discussioncomment-3992326
+import React from "react";
 import Link from "next/link";
-import { ReactNode } from "react";
-import { ClientProvider } from "~/client/trpcClient";
+import { ClientProvider } from "../client/trpcClient";
 import { rsc } from "../server-rsc/trpc";
 
-interface Props {
-  // FIXME is there typing for this?
-  children: ReactNode;
+// interface Props {
+//   // FIXME is there typing for this?
+//   children: ReactNode;
+// }
+export const config = {
+  runtime: 'experimental-edge', // for Edge API Routes only
 }
-export const runtime = "experimental-edge"; // 'node.js' (default) | 'experimental-edge'
-
-export default function RootLayout(props: Props) {
+export default function RootLayout(props) {
   const user = rsc.whoami.use();
   return (
     <ClientProvider>
