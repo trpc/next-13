@@ -7,6 +7,7 @@ interface Props {
   // FIXME is there typing for this?
   children: ReactNode;
 }
+export const runtime = "experimental-edge"; // 'node.js' (default) | 'experimental-edge'
 
 export default function RootLayout(props: Props) {
   const user = rsc.whoami.use();

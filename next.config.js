@@ -7,8 +7,6 @@ const { env } = require('./server/env');
 const nextConfig = {
   experimental: {
     appDir: true,
-    runtime: 'experimental-edge', // 'node.js' (default) | experimental-edge
-
   },
 };
 
