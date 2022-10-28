@@ -34,10 +34,20 @@ export default function Page() {
     <div className='space-y-6 p-4'>
       <header>
         <h1>Overview</h1>
-        <div className='bg-white shadow rounded-md p-4'>
+        <div className='bg-white shadow rounded-md p-4 prose'>
           <p>
             First posts are fetched with RSC, the infinite scrolling is through
             client
+          </p>
+          <p>
+            <a
+              href='https://github.com/trpc/next-13'
+              className='text-indigo-500 underline'
+              target='_blank'
+              rel='noreferrer'
+            >
+              View source on GitHub
+            </a>
           </p>
         </div>
       </header>
