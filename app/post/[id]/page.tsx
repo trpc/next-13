@@ -5,14 +5,19 @@ export default function Page(props: FIXMEType) {
   const post = rsc.post.byId.use({ id: props.params.id });
 
   return (
-    <>
-      <h1>{post.title}</h1>
-      <p>{post.text}</p>
+    <div className='p-4'>
+      <article className='p-4 shadow-md bg-white overflow-hidden rounded-md prose'>
+        <h1>{post.title}</h1>
 
-      <details>
-        <summary>Raw data</summary>
-        <pre>{JSON.stringify(post, null, 4)}</pre>
-      </details>
-    </>
+        {post.text.split("\n").map((line, i) => (
+          <p key={i}>{line}</p>
+        ))}
+
+        <details>
+          <summary>Raw data</summary>
+          <pre>{JSON.stringify(post, null, 4)}</pre>
+        </details>
+      </article>
+    </div>
   );
 }
