@@ -4,6 +4,7 @@ import { CreatePostForm } from "~/client/CreatePostForm";
 import { InfiniteScrolling } from "~/client/InfiniteScrolling";
 import { rsc } from "../server-rsc/trpc";
 import { PostListItem } from "./PostListItem";
+import { Suspense } from "react";
 
 export default function Page() {
   const postList = rsc.post.list.use({});
@@ -33,10 +34,12 @@ export default function Page() {
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
           <ul role='list' className='divide-y divide-gray-200'>
-            {postList.items.map((post) => (
-              <PostListItem key={post.id} post={post} />
-            ))}
-            <InfiniteScrolling nextCursor={postList.nextCursor} />
+            <Suspense fallback={<>Loading..</>}>
+              {postList.items.map((post) => (
+                <PostListItem key={post.id} post={post} />
+              ))}
+              <InfiniteScrolling nextCursor={postList.nextCursor} />
+            </Suspense>
           </ul>
         </div>
       </section>
