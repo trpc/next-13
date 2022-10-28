@@ -8,25 +8,25 @@ import { Suspense, use } from "react";
 
 function PostList() {
   const postList = rsc.post.list.use({});
-  use(new Promise((resolve) => setTimeout(resolve, 1000)));
+  use(new Promise((resolve) => setTimeout(resolve, 1_000)));
 
   return (
-    <>
+    <ul role='list' className='divide-y divide-gray-200'>
       {postList.items.map((post) => (
         <PostListItem key={post.id} post={post} />
       ))}
       <InfiniteScrolling nextCursor={postList.nextCursor} />
-    </>
+    </ul>
   );
 }
 
 PostList.Skeleton = function PostListSkeleton() {
   return (
-    <>
+    <ul role='list' className='divide-y divide-gray-200'>
       {Array.from({ length: 10 }).map((_, i) => (
         <PostListItem.Skeleton key={i} />
       ))}
-    </>
+    </ul>
   );
 };
 export default function Page() {
@@ -49,11 +49,9 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <ul role='list' className='divide-y divide-gray-200'>
-            <Suspense fallback={<PostList.Skeleton />}>
-              <PostList />
-            </Suspense>
-          </ul>
+          <Suspense fallback={<PostList.Skeleton />}>
+            <PostList />
+          </Suspense>
         </div>
       </section>
     </div>
