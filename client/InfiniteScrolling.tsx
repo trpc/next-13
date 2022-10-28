@@ -18,7 +18,7 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
       },
       refetchOnMount: false,
       staleTime: Infinity,
-      keepPreviousData: true,
+      enabled: isVisible,
     },
   );
 
@@ -39,15 +39,25 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
           ))}
         </Fragment>
       ))}
-      <button
-        ref={ref}
-        disabled={!props.nextCursor || query.isFetching || !query.hasNextPage}
-        onClick={() => {
-          query.fetchPreviousPage();
-        }}
-      >
-        {query.isFetching ? "Loading..." : "Load more"}
-      </button>
+      <div>
+        <button
+          ref={ref}
+          disabled={!props.nextCursor || query.isFetching || !query.hasNextPage}
+          onClick={() => {
+            query.fetchPreviousPage();
+          }}
+          className={
+            "p-4 w-full cursor-pointer" +
+            (query.isFetching ? " opacity-50" : "")
+          }
+        >
+          {query.isFetching
+            ? "Loading..."
+            : query.hasNextPage
+            ? "You loaded everything"
+            : "Load more"}
+        </button>
+      </div>
     </>
   );
 }

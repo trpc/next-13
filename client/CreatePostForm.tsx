@@ -36,32 +36,51 @@ export function CreatePostForm() {
           console.error({ cause }, "Failed to add post");
         }
       }}
+      className='space-y-2'
     >
-      <label htmlFor='title'>Title:</label>
-      <br />
-      <input id='title' name='title' type='text' disabled={addPost.isLoading} />
-      {addPost.error?.data?.zod?.title && (
-        <div style={{ color: "red" }}>{addPost.error?.data?.zod?.title}</div>
-      )}
+      <fieldset>
+        <label htmlFor='title' className='label'>
+          Title
+        </label>
+        <input
+          id='title'
+          name='title'
+          type='text'
+          disabled={addPost.isLoading}
+          className='input'
+        />
+        {addPost.error?.data?.zod?.title && (
+          <div style={{ color: "red" }}>{addPost.error?.data?.zod?.title}</div>
+        )}
+      </fieldset>
 
-      <br />
-      <label htmlFor='text'>Text:</label>
-      <br />
-      <textarea id='text' name='text' disabled={addPost.isLoading} />
-      {addPost.error?.data?.zod?.text && (
-        <div style={{ color: "red" }}>{addPost.error?.data?.zod?.text}</div>
-      )}
-      <br />
-      <input type='submit' disabled={addPost.isLoading} />
-      {addPost.error && (
-        <p style={{ color: "red" }}>
-          {addPost.error.message}
+      <fieldset>
+        <label htmlFor='text' className='label'>
+          Text
+        </label>
 
-          {addPost.error.data?.zod && (
-            <pre>{JSON.stringify(addPost.error.data.zod, null, 4)}</pre>
-          )}
-        </p>
-      )}
+        <textarea
+          id='text'
+          name='text'
+          disabled={addPost.isLoading}
+          className='input'
+        />
+        {addPost.error?.data?.zod?.text && (
+          <div style={{ color: "red" }}>{addPost.error?.data?.zod?.text}</div>
+        )}
+      </fieldset>
+      <fieldset>
+        <input type='submit' disabled={addPost.isLoading} className='button' />
+        {addPost.error && (
+          <p style={{ color: "red" }}>
+            {addPost.error.message}
+
+            {addPost.error.data?.zod && (
+              <pre>{JSON.stringify(addPost.error.data.zod, null, 4)}</pre>
+            )}
+          </p>
+        )}
+      </fieldset>
     </form>
   );
 }
