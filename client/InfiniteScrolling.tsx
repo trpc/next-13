@@ -4,23 +4,33 @@ import { Fragment } from "react";
 import { trpc } from "~/client/trpcClient";
 import { PostListItem } from "../app/PostListItem";
 
-export function InfiniteScrolling(props: {
-  initialCursor: string | undefined;
-}) {
+export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
+  // FIXME how can I make this not eagerly fetch until "fetchPreviousPage()" is called?
   const query = trpc.post.list.useInfiniteQuery(
     {
-      initialCursor: props.initialCursor,
+      initialCursor: props.nextCursor || null,
     },
     {
-      getNextPageParam(page) {
-        return page.nextCursor;
+      getPreviousPageParam(lastPage) {
+        return lastPage.nextCursor;
       },
       refetchOnMount: false,
       staleTime: Infinity,
+      keepPreviousData: true,
     },
   );
   return (
     <>
+      <button
+        disabled={
+          !props.nextCursor || query.isFetching || !query.hasPreviousPage
+        }
+        onClick={() => {
+          query.fetchPreviousPage();
+        }}
+      >
+        {query.isFetching ? "Loading..." : "Load more"}
+      </button>
       {query.data?.pages.map((page, index) => (
         <Fragment key={index}>
           {page.items.map((post) => (
@@ -28,16 +38,6 @@ export function InfiniteScrolling(props: {
           ))}
         </Fragment>
       ))}
-      <button
-        disabled={
-          !props.initialCursor || query.isFetching || !query.hasNextPage
-        }
-        onClick={async () => {
-          query.fetchNextPage();
-        }}
-      >
-        {query.isFetching ? "Loading..." : "Load more"}
-      </button>
     </>
   );
 }
