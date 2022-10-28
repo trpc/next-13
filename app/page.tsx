@@ -6,9 +6,19 @@ import { rsc } from "../server-rsc/trpc";
 import { PostListItem } from "./PostListItem";
 import { Suspense } from "react";
 
-export default function Page() {
+function PostList() {
   const postList = rsc.post.list.use({});
 
+  return (
+    <ul role='list' className='divide-y divide-gray-200'>
+      {postList.items.map((post) => (
+        <PostListItem key={post.id} post={post} />
+      ))}
+      <InfiniteScrolling nextCursor={postList.nextCursor} />
+    </ul>
+  );
+}
+export default function Page() {
   return (
     <div className='space-y-6 p-4'>
       <header>
@@ -18,11 +28,6 @@ export default function Page() {
             First posts are fetched with RSC, the infinite scrolling is through
             client
           </p>
-
-          <details>
-            <summary>Raw RSC data</summary>
-            <pre>{JSON.stringify(postList, null, 4)}</pre>
-          </details>
         </div>
       </header>
       <section>
@@ -33,14 +38,9 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <ul role='list' className='divide-y divide-gray-200'>
-            <Suspense fallback={<>Loading..</>}>
-              {postList.items.map((post) => (
-                <PostListItem key={post.id} post={post} />
-              ))}
-              <InfiniteScrolling nextCursor={postList.nextCursor} />
-            </Suspense>
-          </ul>
+          <Suspense fallback={<>Loading...</>}>
+            <PostList />
+          </Suspense>
         </div>
       </section>
     </div>
