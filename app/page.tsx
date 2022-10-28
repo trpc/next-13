@@ -21,11 +21,13 @@ export default function Page() {
       </details>
 
       <ClientProvider>
-        <InfiniteScrolling nextCursor={postList.nextCursor} />
+        <h2>Add post</h2>
+        <CreatePostForm />
+        <h2>All posts</h2>
         {postList.items.map((post) => (
           <PostListItem key={post.id} post={post} />
         ))}
-        <CreatePostForm />
+        <InfiniteScrolling nextCursor={postList.nextCursor} />
       </ClientProvider>
     </>
   );
