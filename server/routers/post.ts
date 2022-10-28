@@ -96,8 +96,8 @@ export const postRouter = router({
     .input(
       z.object({
         id: z.string().uuid().optional(),
-        title: z.string().min(1).max(32),
-        text: z.string().min(1),
+        title: z.string().min(1, "Required").max(32),
+        text: z.string().min(5),
       }),
     )
     .mutation(async ({ input }) => {
