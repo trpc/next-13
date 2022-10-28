@@ -1,7 +1,8 @@
-import { InfiniteScrolling } from "../client/InfiniteScrolling";
 import { PostListItem } from "./PostListItem";
 import { rsc } from "../server-rsc/trpc";
 import { ClientProvider } from "~/client/trpcClient";
+import { CreatePostForm } from "~/client/CreatePostForm";
+import { InfiniteScrolling } from "~/client/InfiniteScrolling";
 
 export default function Page() {
   const postList = rsc.post.list.use({});
@@ -19,11 +20,12 @@ export default function Page() {
         <pre>{JSON.stringify(postList, null, 4)}</pre>
       </details>
 
-      {postList.items.map((post) => (
-        <PostListItem key={post.id} post={post} />
-      ))}
       <ClientProvider>
-        <InfiniteScrolling initialCursor={postList.nextCursor} />
+        <InfiniteScrolling nextCursor={postList.nextCursor} />
+        {postList.items.map((post) => (
+          <PostListItem key={post.id} post={post} />
+        ))}
+        <CreatePostForm />
       </ClientProvider>
     </>
   );

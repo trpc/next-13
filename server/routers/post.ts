@@ -37,8 +37,8 @@ export const postRouter = router({
        * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
        */
 
-      const limit = input.limit ?? 50;
-      const { cursor } = input;
+      const limit = input.limit ?? 5;
+      const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.post.findMany({
         select: defaultPostSelect,
@@ -54,7 +54,8 @@ export const postRouter = router({
           createdAt: "desc",
         },
       });
-      let nextCursor: typeof cursor | undefined = undefined;
+      let nextCursor: string | undefined = undefined;
+
       if (items.length > limit) {
         // Remove the last item and use it as next cursor
 
