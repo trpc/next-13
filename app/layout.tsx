@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
 import Link from "next/link";
-import { ClientProvider } from "../client/trpcClient";
+import { ReactNode } from "react";
+import { ClientProvider } from "~/client/trpcClient";
 import { rsc } from "../server-rsc/trpc";
 
 interface Props {
