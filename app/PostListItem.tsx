@@ -10,7 +10,10 @@ export function PostListItem(props: { post: ListItem }) {
   const { post } = props;
   return (
     <Link
-      href={`/post/${post.id}`}
+      href={{
+        pathname: "/post/[id]",
+        query: { id: post.id },
+      }}
       className='block hover:bg-gray-50 px-4 py-4 sm:px-6"'
     >
       <article>
