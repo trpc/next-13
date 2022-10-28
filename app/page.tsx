@@ -4,10 +4,32 @@ import { CreatePostForm } from "~/client/CreatePostForm";
 import { InfiniteScrolling } from "~/client/InfiniteScrolling";
 import { rsc } from "../server-rsc/trpc";
 import { PostListItem } from "./PostListItem";
+import { Suspense, use } from "react";
 
-export default function Page() {
+function PostList() {
   const postList = rsc.post.list.use({});
+  use(new Promise((resolve) => setTimeout(resolve, 1_000)));
 
+  return (
+    <ul role='list' className='divide-y divide-gray-200'>
+      {postList.items.map((post) => (
+        <PostListItem key={post.id} post={post} />
+      ))}
+      <InfiniteScrolling nextCursor={postList.nextCursor} />
+    </ul>
+  );
+}
+
+PostList.Skeleton = function PostListSkeleton() {
+  return (
+    <ul role='list' className='divide-y divide-gray-200'>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <PostListItem.Skeleton key={i} />
+      ))}
+    </ul>
+  );
+};
+export default function Page() {
   return (
     <div className='space-y-6 p-4'>
       <header>
@@ -17,11 +39,6 @@ export default function Page() {
             First posts are fetched with RSC, the infinite scrolling is through
             client
           </p>
-
-          <details>
-            <summary>Raw RSC data</summary>
-            <pre>{JSON.stringify(postList, null, 4)}</pre>
-          </details>
         </div>
       </header>
       <section>
@@ -32,12 +49,9 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <ul role='list' className='divide-y divide-gray-200'>
-            {postList.items.map((post) => (
-              <PostListItem key={post.id} post={post} />
-            ))}
-            <InfiniteScrolling nextCursor={postList.nextCursor} />
-          </ul>
+          <Suspense fallback={<PostList.Skeleton />}>
+            <PostList />
+          </Suspense>
         </div>
       </section>
     </div>
