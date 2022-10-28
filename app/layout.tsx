@@ -7,9 +7,11 @@ interface Props {
   // FIXME is there typing for this?
   children: ReactNode;
 }
+
 export const config = {
   runtime: "experimental-edge", // for Edge API Routes only
 };
+
 export default function RootLayout(props: Props) {
   const user = rsc.whoami.use();
   return (
