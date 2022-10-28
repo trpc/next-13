@@ -28,7 +28,7 @@ export function CreatePostForm() {
           text: values.text as string,
         };
         try {
-          addPost.mutateAsync(input);
+          await addPost.mutateAsync(input);
           router.refresh();
 
           $form.reset();

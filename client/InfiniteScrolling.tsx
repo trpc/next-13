@@ -5,6 +5,7 @@ import { trpc } from "~/client/trpcClient";
 import { PostListItem } from "../app/PostListItem";
 
 export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
+  // FIXME how can I make this not eagerly fetch until "fetchPreviousPage()" is called?
   const query = trpc.post.list.useInfiniteQuery(
     {
       initialCursor: props.nextCursor || null,
