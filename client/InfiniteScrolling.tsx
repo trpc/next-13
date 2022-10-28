@@ -3,30 +3,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { trpc } from "~/client/trpcClient";
 import { PostListItem } from "../app/PostListItem";
-import React from "react";
-
-function useIsIntersecting<TElement extends HTMLElement>() {
-  // to prevents runtime crash in IE, let's mark it true right away
-  const [isIntersecting, setIsIntersecting] = React.useState(
-    typeof IntersectionObserver !== "function",
-  );
-
-  const ref = React.useRef<TElement>(null);
-
-  React.useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-    const observer = new IntersectionObserver(([entry]) =>
-      setIsIntersecting(entry.isIntersecting),
-    );
-    observer.observe(ref.current);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-  return [isIntersecting, ref] as const;
-}
+import { useIsIntersecting } from "./useIsIntersecting";
 
 export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
   const [isVisible, ref] = useIsIntersecting<HTMLButtonElement>();
