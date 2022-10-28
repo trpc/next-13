@@ -9,7 +9,7 @@ export default function Page() {
   const postList = rsc.post.list.use({});
 
   return (
-    <div className='space-y-4 p-4'>
+    <div className='space-y-6 p-4'>
       <header>
         <h1>Overview</h1>
         <div className='bg-white shadow rounded-md p-4'>

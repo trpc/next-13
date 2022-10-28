@@ -48,12 +48,12 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
           }}
           className={
             "p-4 w-full cursor-pointer" +
-            (query.isFetching ? " opacity-50" : "")
+            (query.isFetching || !query.hasNextPage ? " opacity-50" : "")
           }
         >
           {query.isFetching
             ? "Loading..."
-            : query.hasNextPage
+            : !query.hasNextPage
             ? "You loaded everything"
             : "Load more"}
         </button>

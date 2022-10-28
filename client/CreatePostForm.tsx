@@ -47,7 +47,9 @@ export function CreatePostForm() {
           name='title'
           type='text'
           disabled={addPost.isLoading}
-          className='input'
+          className={
+            "input" + (addPost.error?.data?.zod?.title ? " input--error" : "")
+          }
         />
         {addPost.error?.data?.zod?.title && (
           <div style={{ color: "red" }}>{addPost.error?.data?.zod?.title}</div>
@@ -63,7 +65,9 @@ export function CreatePostForm() {
           id='text'
           name='text'
           disabled={addPost.isLoading}
-          className='input'
+          className={
+            "input" + (addPost.error?.data?.zod?.text ? " input--error" : "")
+          }
         />
         {addPost.error?.data?.zod?.text && (
           <div style={{ color: "red" }}>{addPost.error?.data?.zod?.text}</div>
@@ -71,7 +75,7 @@ export function CreatePostForm() {
       </fieldset>
       <fieldset>
         <input type='submit' disabled={addPost.isLoading} className='button' />
-        {addPost.error && (
+        {addPost.error && !addPost.error.data?.zod && (
           <p style={{ color: "red" }}>
             {addPost.error.message}
 
