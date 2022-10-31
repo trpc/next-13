@@ -65,13 +65,3 @@ export function PostList(props: {
     </ul>
   );
 }
-
-PostList.Skeleton = function PostListSkeleton() {
-  return (
-    <ul role='list' className='divide-y divide-gray-200'>
-      {Array.from({ length: 10 }).map((_, i) => (
-        <PostListItem.Skeleton key={i} />
-      ))}
-    </ul>
-  );
-};
