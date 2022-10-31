@@ -4,7 +4,18 @@ import { Suspense, use } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
 import { serialize } from "~/client/hydration";
 import { PostList } from "~/components/PostList";
+import { PostListItem } from "~/components/PostListItem";
 import { rsc } from "../server-rsc/trpc";
+
+function PostListSkeleton() {
+  return (
+    <ul role='list' className='divide-y divide-gray-200'>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <PostListItem.Skeleton key={i} />
+      ))}
+    </ul>
+  );
+}
 
 function PostListRSC() {
   const postList = rsc.post.list.use({});
@@ -50,7 +61,7 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <Suspense fallback={<PostList.Skeleton />}>
+          <Suspense fallback={<PostListSkeleton />}>
             <PostListRSC />
           </Suspense>
         </div>
