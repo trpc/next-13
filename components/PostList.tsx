@@ -1,24 +1,28 @@
 "use client";
 
+import { InfiniteData } from "@tanstack/react-query";
 import { Fragment, useEffect, useRef } from "react";
 import { trpc } from "~/client/trpcClient";
-import { PostListItem } from "../app/PostListItem";
-import { useIsIntersecting } from "./useIsIntersecting";
+import { PostListItem, PostListOutput } from "./PostListItem";
+import { SerializedResult, useDeserialized } from "../client/hydration";
+import { useIsIntersecting } from "../client/useIsIntersecting";
 
-export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
-  const [isVisible, ref] = useIsIntersecting<HTMLDivElement>();
-  // FIXME how can I make this not eagerly fetch until "fetchPreviousPage()" is called?
+export function PostList(props: {
+  initialData: SerializedResult<InfiniteData<PostListOutput>>;
+}) {
+  const [isLoadMoreVisible, ref] = useIsIntersecting<HTMLDivElement>();
+
+  const initialData = useDeserialized(props.initialData);
+
   const query = trpc.post.list.useInfiniteQuery(
-    {
-      initialCursor: props.nextCursor,
-    },
+    {},
     {
       getNextPageParam(lastPage) {
         return lastPage.nextCursor;
       },
       refetchOnMount: false,
       staleTime: Infinity,
-      enabled: isVisible,
+      initialData,
     },
   );
 
@@ -26,12 +30,13 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
   fetchNextPageRef.current = query.fetchNextPage;
 
   useEffect(() => {
-    if (isVisible && query.hasNextPage && !query.isFetching) {
+    if (isLoadMoreVisible && query.hasNextPage && !query.isFetching) {
       fetchNextPageRef.current();
     }
-  }, [isVisible, query.hasNextPage, query.isFetching]);
+  }, [isLoadMoreVisible, query.hasNextPage, query.isFetching]);
+
   return (
-    <>
+    <ul role='list' className='divide-y divide-gray-200'>
       {query.data?.pages.map((page, index) => (
         <Fragment key={index}>
           {page.items.map((post) => (
@@ -44,7 +49,7 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
           <PostListItem.Skeleton />
         ) : (
           <button
-            disabled={!props.nextCursor || !query.hasNextPage}
+            disabled={!query.hasNextPage}
             onClick={() => {
               query.fetchNextPage();
             }}
@@ -57,6 +62,16 @@ export function InfiniteScrolling(props: { nextCursor: string | undefined }) {
           </button>
         )}
       </div>
-    </>
+    </ul>
   );
 }
+
+PostList.Skeleton = function PostListSkeleton() {
+  return (
+    <ul role='list' className='divide-y divide-gray-200'>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <PostListItem.Skeleton key={i} />
+      ))}
+    </ul>
+  );
+};

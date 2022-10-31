@@ -42,8 +42,8 @@ export const postRouter = router({
 
       const items = await prisma.post.findMany({
         select: defaultPostSelect,
-        // get an extra item on each side
-        take: limit + (cursor ? 2 : 1),
+        // get an extra item to know if there's a next page
+        take: limit + 1,
         where: {},
         cursor: cursor
           ? {
@@ -56,15 +56,12 @@ export const postRouter = router({
       });
       let nextCursor: string | undefined = undefined;
 
-      if (cursor) {
-        items.shift();
-      }
       if (items.length > limit) {
         // Remove the last item and use it as next cursor
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        items.pop()!;
-        nextCursor = items[items.length - 1].id;
+        const lastItem = items.pop()!;
+        nextCursor = lastItem.id;
       }
 
       return {
