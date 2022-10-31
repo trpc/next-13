@@ -1,5 +1,3 @@
-import "./global.css";
-
 import { Suspense, use } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
 import { serialize } from "~/client/hydration";
