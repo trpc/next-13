@@ -10,7 +10,7 @@ import { useIsIntersecting } from "../client/useIsIntersecting";
 export function PostList(props: {
   initialData: SerializedResult<InfiniteData<PostListOutput>>;
 }) {
-  const [isVisible, ref] = useIsIntersecting<HTMLDivElement>();
+  const [isLoadMoreVisible, ref] = useIsIntersecting<HTMLDivElement>();
 
   const initialData = useDeserialized(props.initialData);
 
@@ -22,7 +22,6 @@ export function PostList(props: {
       },
       refetchOnMount: false,
       staleTime: Infinity,
-      enabled: isVisible,
       initialData,
     },
   );
@@ -31,10 +30,10 @@ export function PostList(props: {
   fetchNextPageRef.current = query.fetchNextPage;
 
   useEffect(() => {
-    if (isVisible && query.hasNextPage && !query.isFetching) {
+    if (isLoadMoreVisible && query.hasNextPage && !query.isFetching) {
       fetchNextPageRef.current();
     }
-  }, [isVisible, query.hasNextPage, query.isFetching]);
+  }, [isLoadMoreVisible, query.hasNextPage, query.isFetching]);
 
   return (
     <ul role='list' className='divide-y divide-gray-200'>
