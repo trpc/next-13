@@ -3,7 +3,7 @@ import "./global.css";
 import { Suspense, use } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
 import { serialize } from "~/client/hydration";
-import { PostList } from "~/components/PostList";
+import { PostList, PostListSkeleton } from "~/components/PostList";
 import { rsc } from "../server-rsc/trpc";
 
 function PostListRSC() {
@@ -50,7 +50,7 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <Suspense fallback={<PostList.Skeleton />}>
+          <Suspense fallback={<PostListSkeleton />}>
             <PostListRSC />
           </Suspense>
         </div>

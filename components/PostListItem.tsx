@@ -39,7 +39,7 @@ export function PostListItem(props: { post: ListItem }) {
   );
 }
 
-PostListItem.Skeleton = function PostListItemSkeleton() {
+export function PostListItemSkeleton() {
   return (
     <div className='block hover:bg-gray-50 px-4 py-4 sm:px-6"'>
       <div className='h-4 w-1/2 bg-gray-300 rounded animate-pulse'></div>
@@ -48,4 +48,4 @@ PostListItem.Skeleton = function PostListItemSkeleton() {
       </div>
     </div>
   );
-};
+}

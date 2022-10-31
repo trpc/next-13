@@ -3,7 +3,7 @@
 import { InfiniteData } from "@tanstack/react-query";
 import { Fragment, useEffect, useRef } from "react";
 import { trpc } from "~/client/trpcClient";
-import { PostListItem, PostListOutput } from "./PostListItem";
+import { PostListItem, PostListOutput, PostListItemSkeleton } from "./PostListItem";
 import { SerializedResult, useDeserialized } from "../client/hydration";
 import { useIsIntersecting } from "../client/useIsIntersecting";
 
@@ -46,7 +46,7 @@ export function PostList(props: {
       ))}
       <div ref={ref}>
         {query.isFetchingNextPage ? (
-          <PostListItem.Skeleton />
+          <PostListItemSkeleton />
         ) : (
           <button
             disabled={!query.hasNextPage}
@@ -66,11 +66,11 @@ export function PostList(props: {
   );
 }
 
-PostList.Skeleton = function PostListSkeleton() {
+export function PostListSkeleton() {
   return (
     <ul role='list' className='divide-y divide-gray-200'>
       {Array.from({ length: 10 }).map((_, i) => (
-        <PostListItem.Skeleton key={i} />
+        <PostListItemSkeleton key={i} />
       ))}
     </ul>
   );
