@@ -1,9 +1,10 @@
 import { Suspense, use } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
-import { serialize } from "~/client/hydration";
+import { serialize } from "~/shared/hydration";
 import { PostList } from "~/components/PostList";
 import { PostListItem } from "~/components/PostListItem";
 import { rsc } from "../server-rsc/trpc";
+import { HydrateClient } from "~/client/HydrateClient";
 
 function PostListSkeleton() {
   return (
@@ -16,16 +17,14 @@ function PostListSkeleton() {
 }
 
 function PostListRSC() {
-  const postList = rsc.post.list.use({});
+  use(rsc.post.list.fetchInfinite({}));
+
   use(new Promise((resolve) => setTimeout(resolve, 3_00)));
 
   return (
-    <PostList
-      initialData={serialize({
-        pages: [postList],
-        pageParams: [{}],
-      })}
-    />
+    <HydrateClient state={use(rsc.dehydrate())}>
+      <PostList />
+    </HydrateClient>
   );
 }
 
