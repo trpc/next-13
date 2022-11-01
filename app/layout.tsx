@@ -5,10 +5,7 @@ import { PropsWithChildren } from "react";
 import { ClientProvider } from "~/client/trpcClient";
 import { rsc } from "../server-rsc/trpc";
 
-
-export const config = {
-  runtime: "experimental-edge", // for Edge API Routes only
-};
+export const runtime = "experimental-edge"; // 'node.js' (default) | 'experimental-edge'
 
 export default function RootLayout(props: PropsWithChildren) {
   const user = rsc.whoami.use();
