@@ -18,18 +18,20 @@ export const trpc = createTRPCReact<AppRouter>({
 });
 
 export function ClientProvider(props: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient())
-  const [trpcClient] = useState(() => trpc.createClient({
-    links: [
-      loggerLink({
-        enabled: () => true,
-      }),
-      httpBatchLink({
-        url: "/api/trpc",
-      }),
-    ],
-    transformer: superjson,
-  });
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
+    trpc.createClient({
+      links: [
+        loggerLink({
+          enabled: () => true,
+        }),
+        httpBatchLink({
+          url: "/api/trpc",
+        }),
+      ],
+      transformer: superjson,
+    }),
+  );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient} contextSharing={true}>
