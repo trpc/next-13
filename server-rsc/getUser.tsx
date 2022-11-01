@@ -7,16 +7,16 @@ export interface User {
   name: string;
 }
 export async function getUser(): Promise<User | null> {
-  const $cookies = cookies();
-
-  const newCookies = new Map<string, string>();
-  for (const [key, value] of $cookies.entries()) {
-    newCookies.set(key, value.substr(key.length + 1).split(";")[0]);
-  }
+  const newCookies = cookies()
+    .getAll()
+    .reduce((cookiesObj, cookie) => {
+      cookiesObj[cookie.name] = cookie.value;
+      return cookiesObj;
+    }, {} as Record<string, string>);
 
   const token = await getToken({
     req: {
-      cookies: newCookies as any,
+      cookies: newCookies,
       headers: {},
     } as any,
   });
