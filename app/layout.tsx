@@ -1,18 +1,16 @@
+import "./global.css";
+
 import Link from "next/link";
-import { ReactNode } from "react";
+import { PropsWithChildren } from "react";
 import { ClientProvider } from "~/client/trpcClient";
 import { rsc } from "../server-rsc/trpc";
 
-interface Props {
-  // FIXME is there typing for this?
-  children: ReactNode;
-}
 
 export const config = {
   runtime: "experimental-edge", // for Edge API Routes only
 };
 
-export default function RootLayout(props: Props) {
+export default function RootLayout(props: PropsWithChildren) {
   const user = rsc.whoami.use();
   return (
     <ClientProvider>

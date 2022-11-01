@@ -1,26 +1,11 @@
-import "./global.css";
-
-import { CreatePostForm } from "~/client/CreatePostForm";
-import { InfiniteScrolling } from "~/client/InfiniteScrolling";
-import { rsc } from "../server-rsc/trpc";
-import { PostListItem } from "./PostListItem";
 import { Suspense, use } from "react";
+import { CreatePostForm } from "~/client/CreatePostForm";
+import { serialize } from "~/client/hydration";
+import { PostList } from "~/components/PostList";
+import { PostListItem } from "~/components/PostListItem";
+import { rsc } from "../server-rsc/trpc";
 
-function PostList() {
-  const postList = rsc.post.list.use({});
-  use(new Promise((resolve) => setTimeout(resolve, 1_000)));
-
-  return (
-    <ul role='list' className='divide-y divide-gray-200'>
-      {postList.items.map((post) => (
-        <PostListItem key={post.id} post={post} />
-      ))}
-      <InfiniteScrolling nextCursor={postList.nextCursor} />
-    </ul>
-  );
-}
-
-PostList.Skeleton = function PostListSkeleton() {
+function PostListSkeleton() {
   return (
     <ul role='list' className='divide-y divide-gray-200'>
       {Array.from({ length: 10 }).map((_, i) => (
@@ -28,7 +13,22 @@ PostList.Skeleton = function PostListSkeleton() {
       ))}
     </ul>
   );
-};
+}
+
+function PostListRSC() {
+  const postList = rsc.post.list.use({});
+  use(new Promise((resolve) => setTimeout(resolve, 3_00)));
+
+  return (
+    <PostList
+      initialData={serialize({
+        pages: [postList],
+        pageParams: [{}],
+      })}
+    />
+  );
+}
+
 export default function Page() {
   return (
     <div className='space-y-6 p-4'>
@@ -59,8 +59,8 @@ export default function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <Suspense fallback={<PostList.Skeleton />}>
-            <PostList />
+          <Suspense fallback={<PostListSkeleton />}>
+            <PostListRSC />
           </Suspense>
         </div>
       </section>
