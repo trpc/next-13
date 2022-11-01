@@ -26,7 +26,7 @@ export const postRouter = router({
     .input(
       z.object({
         limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(),
+        cursor: z.any(),
         initialCursor: z.string().nullish(),
       }),
     )
@@ -45,7 +45,7 @@ export const postRouter = router({
         // get an extra item to know if there's a next page
         take: limit + 1,
         where: {},
-        cursor: cursor
+        cursor: typeof cursor === 'string'
           ? {
               id: cursor,
             }
