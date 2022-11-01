@@ -1,5 +1,4 @@
 import { getToken } from "next-auth/jwt";
-import { cookies } from "next/headers";
 
 export interface User {
   id: string;
@@ -7,6 +6,7 @@ export interface User {
   name: string;
 }
 export async function getUser(): Promise<User | null> {
+  const cookies = (await import("next/headers")).cookies;
   const $cookies = cookies();
 
   const newCookies = new Map<string, string>();

@@ -1,0 +1,7 @@
+{
+  "name": "@trpc/next-layout",
+  "exports": {
+    "./client": "./client.ts",
+    "./server": "./server.ts"
+  }
+}

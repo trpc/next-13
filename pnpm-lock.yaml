@@ -7,6 +7,7 @@ specifiers:
   '@tailwindcss/typography': ^0.5.7
   '@tanstack/react-query': ^4.13.0
   '@trpc/client': ^10.0.0-rc.1
+  '@trpc/next-layout': file:@trpc/next-layout
   '@trpc/react-query': ^10.0.0-rc.1
   '@trpc/server': ^10.0.0-rc.1
   '@types/node': 18.8.5
@@ -34,6 +35,7 @@ dependencies:
   '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.1
   '@tanstack/react-query': 4.13.0_biqbaboplfbrettd7655fr4n2y
   '@trpc/client': 10.0.0-rc.1_@trpc+server@10.0.0-rc.1
+  '@trpc/next-layout': file:@trpc/next-layout
   '@trpc/react-query': 10.0.0-rc.1_j3pstw3g7plkegerh6sxuce5zm
   '@trpc/server': 10.0.0-rc.1
   next: 13.0.0_biqbaboplfbrettd7655fr4n2y
@@ -2667,4 +2669,9 @@ packages:
 
   /zod/3.19.1:
     resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
+    dev: false
+
+  file:@trpc/next-layout:
+    resolution: {directory: '@trpc/next-layout', type: directory}
+    name: '@trpc/next-layout'
     dev: false

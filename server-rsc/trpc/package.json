@@ -1,0 +1,8 @@
+{
+  "exports": {
+    ".": {
+      "react-server": "./server.ts",
+      "default": "./client.ts"
+    }
+  }
+}

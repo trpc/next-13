@@ -11,7 +11,7 @@ import {
 import { createRecursiveProxy } from "@trpc/server/shared";
 import { use } from "react";
 
-interface CreateTRPCNextLayoutOptions<TRouter extends AnyRouter> {
+export interface CreateTRPCNextLayoutOptions<TRouter extends AnyRouter> {
   router: TRouter;
   createContext: () => MaybePromise<inferRouterContext<TRouter>>;
 }
@@ -23,7 +23,7 @@ export type DecorateProcedure<TProcedure extends AnyProcedure> =
   TProcedure extends AnyQueryProcedure
     ? {
         use(
-          input: inferProcedureInput<TProcedure>,
+          input: inferProcedureInput<TProcedure>
           // FIXME: maybe this should be cache options?
           // opts?:
         ): inferProcedureOutput<TProcedure>;
@@ -41,7 +41,7 @@ type OmitNever<TType> = Pick<
  */
 export type DecoratedProcedureRecord<
   TProcedures extends ProcedureRouterRecord,
-  TPath extends string = "",
+  TPath extends string = ""
 > = OmitNever<{
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
     ? DecoratedProcedureRecord<
@@ -53,9 +53,9 @@ export type DecoratedProcedureRecord<
     : never;
 }>;
 
-export function createTRPCNextLayout<TRouter extends AnyRouter>(
-  opts: CreateTRPCNextLayoutOptions<TRouter>,
-): DecoratedProcedureRecord<TRouter["_def"]["record"]> {
+export async function createTRPCNextLayout<TRouter extends AnyRouter>(
+  opts: CreateTRPCNextLayoutOptions<TRouter>
+): Promise<DecoratedProcedureRecord<TRouter["_def"]["record"]>> {
   return createRecursiveProxy((callOpts) => {
     const path = [...callOpts.path];
     path.pop();
@@ -65,7 +65,7 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
         const caller = opts.router.createCaller(ctx);
 
         return caller.query(path.join("."), callOpts.args[0]) as any;
-      })(),
+      })()
     ) as any;
   }) as DecoratedProcedureRecord<TRouter["_def"]["record"]>;
 }
