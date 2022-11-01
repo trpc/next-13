@@ -1,3 +1,5 @@
+import "./global.css";
+
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { ClientProvider } from "~/client/trpcClient";
