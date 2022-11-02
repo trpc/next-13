@@ -1,27 +1,23 @@
 "use client";
 
-import { dehydrate, useQueryClient } from "@tanstack/react-query";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, use } from "react";
 import { trpc } from "~/client/trpcClient";
-import { useIsIntersecting } from "../client/useIsIntersecting";
+import { useIsIntersecting } from "~/client/useIsIntersecting";
 import { PostListItem } from "./PostListItem";
-
-function useRenderCount() {
-  const ref = useRef(0);
-  useEffect(() => {
-    ref.current++;
-  });
-  return ref.current;
-}
 
 export function PostList() {
   const [isLoadMoreVisible, ref] = useIsIntersecting<HTMLDivElement>();
 
-  const queryClient = useQueryClient();
-  console.log(
-    `hydrated client (render #${useRenderCount()})`,
-    dehydrate(queryClient),
+  const utils = trpc.useContext();
+  use(
+    utils.post.list.fetchInfinite(
+      {},
+      {
+        staleTime: Infinity,
+      },
+    ),
   );
+
   const query = trpc.post.list.useInfiniteQuery(
     {},
     {

@@ -1,9 +1,27 @@
-import { use } from "react";
-import { rsc } from "~/server-rsc/trpc";
+"use client";
+import { use, useRef } from "react";
+import { trpc } from "~/client/trpcClient";
 
-type FIXMEType = any;
+// There should be some built-in type
+type FIXMEType = {
+  params: {
+    id: string;
+  };
+};
+
 export default function Page(props: FIXMEType) {
-  const post = use(rsc.post.byId.fetch({ id: props.params.id }));
+  const utils = trpc.useContext();
+
+  const post = use(
+    utils.post.byId.fetch(
+      {
+        id: props.params.id,
+      },
+      {
+        staleTime: Infinity,
+      },
+    ),
+  );
 
   return (
     <div className='p-4'>

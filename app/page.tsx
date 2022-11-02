@@ -1,10 +1,9 @@
-import { Suspense, use } from "react";
+"use client";
+
+import { Suspense } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
-import { serialize } from "~/shared/hydration";
 import { PostList } from "~/components/PostList";
 import { PostListItem } from "~/components/PostListItem";
-import { rsc } from "../server-rsc/trpc";
-import { HydrateClient } from "~/client/HydrateClient";
 
 function PostListSkeleton() {
   return (
@@ -13,18 +12,6 @@ function PostListSkeleton() {
         <PostListItem.Skeleton key={i} />
       ))}
     </ul>
-  );
-}
-
-function PostListRSC() {
-  use(rsc.post.list.fetchInfinite({}));
-
-  use(new Promise((resolve) => setTimeout(resolve, 3_00)));
-
-  return (
-    <HydrateClient state={use(rsc.dehydrate())}>
-      <PostList />
-    </HydrateClient>
   );
 }
 
@@ -59,7 +46,7 @@ export default function Page() {
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
           <Suspense fallback={<PostListSkeleton />}>
-            <PostListRSC />
+            <PostList />
           </Suspense>
         </div>
       </section>
