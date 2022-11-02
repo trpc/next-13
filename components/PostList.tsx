@@ -5,19 +5,38 @@ import { trpc } from "~/client/trpcClient";
 import { useIsIntersecting } from "~/client/useIsIntersecting";
 import { PostListItem } from "./PostListItem";
 
+function useOnce<T>(fn: () => T) {
+  const ref = useRef<T>();
+  if (!ref.current) {
+    ref.current = fn();
+  }
+  return ref.current;
+}
+
+function useRenderCount() {
+  const ref = useRef(0);
+  ref.current++;
+  return ref.current;
+}
+
 export function PostList() {
   const [isLoadMoreVisible, ref] = useIsIntersecting<HTMLDivElement>();
 
   const utils = trpc.useContext();
+  console.log("loading", useRenderCount());
   use(
-    utils.post.list.fetchInfinite(
-      {},
-      {
-        staleTime: Infinity,
-      },
+    useOnce(() =>
+      utils.post.list.fetchInfinite(
+        {},
+        {
+          staleTime: Infinity,
+        },
+      ),
     ),
   );
+  console.log("loaded");
 
+  console.log({ isLoadMoreVisible });
   const query = trpc.post.list.useInfiniteQuery(
     {},
     {
