@@ -37,7 +37,7 @@ export const postRouter = router({
        * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
        */
 
-      const limit = input.limit ?? 20;
+      const limit = input.limit ?? 2;
       const cursor = input.cursor ?? input.initialCursor;
 
       const items = await prisma.post.findMany({

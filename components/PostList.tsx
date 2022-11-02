@@ -24,17 +24,6 @@ export function PostList() {
 
   const utils = trpc.useContext();
   console.log("loading", useRenderCount());
-  use(
-    useOnce(() =>
-      utils.post.list.fetchInfinite(
-        {},
-        {
-          staleTime: Infinity,
-        },
-      ),
-    ),
-  );
-  console.log("loaded");
 
   console.log({ isLoadMoreVisible });
   const query = trpc.post.list.useInfiniteQuery(
@@ -45,6 +34,7 @@ export function PostList() {
       },
       refetchOnMount: false,
       staleTime: Infinity,
+      suspense: true,
     },
   );
 

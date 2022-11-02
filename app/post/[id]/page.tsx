@@ -10,18 +10,11 @@ type FIXMEType = {
 };
 
 export default function Page(props: FIXMEType) {
-  const utils = trpc.useContext();
-
-  const post = use(
-    utils.post.byId.fetch(
-      {
-        id: props.params.id,
-      },
-      {
-        staleTime: Infinity,
-      },
-    ),
-  );
+  const query = trpc.post.byId.useQuery({ id: props.params.id });
+  const post = query.data;
+  if (!post) {
+    return null;
+  }
 
   return (
     <div className='p-4'>
