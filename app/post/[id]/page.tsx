@@ -10,7 +10,10 @@ type FIXMEType = {
 };
 
 export default function Page(props: FIXMEType) {
-  const query = trpc.post.byId.useQuery({ id: props.params.id });
+  const query = trpc.post.byId.useQuery(
+    { id: props.params.id },
+    { suspense: true },
+  );
   const post = query.data;
   if (!post) {
     return null;
