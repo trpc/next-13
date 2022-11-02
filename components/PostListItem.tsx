@@ -1,6 +1,9 @@
 import { CalendarIcon } from "@heroicons/react/20/solid";
 
 import Link from "next/link";
+import { useEffect } from "react";
+import { trpc } from "~/client/trpcClient";
+import { useIsIntersecting } from "~/client/useIsIntersecting";
 import { Outputs } from "~/shared/utils";
 
 export type PostListOutput = Outputs["post"]["list"];
@@ -8,10 +11,19 @@ type ListItem = PostListOutput["items"][number];
 
 export function PostListItem(props: { post: ListItem }) {
   const { post } = props;
+  const [isVisible, ref] = useIsIntersecting<HTMLAnchorElement>();
+
+  const utils = trpc.useContext();
+  useEffect(() => {
+    if (isVisible) {
+      utils.post.byId.prefetch({ id: post.id });
+    }
+  }, [isVisible]);
   return (
     <Link
       href={`/post/${post.id}`}
       className='block hover:bg-gray-50 px-4 py-4 sm:px-6"'
+      ref={ref}
     >
       <article>
         <div className='flex items-center justify-between'>
