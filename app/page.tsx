@@ -43,9 +43,9 @@ export default async function Page() {
         <h2>All posts</h2>
 
         <div className='overflow-hidden bg-white shadow rounded-md'>
-          <Suspense fallback={<PostListSkeleton />}>
-            <PostList />
-          </Suspense>
+          {/* <Suspense fallback={<PostListSkeleton />}> */}
+          <PostList />
+          {/* </Suspense> */}
         </div>
       </section>
     </div>
