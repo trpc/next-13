@@ -1,8 +1,7 @@
-import { use } from "react";
 import { rsc } from "../../server-rsc/trpc";
 
-export default function Page() {
-  const secret = use(rsc.secret.fetch());
+export default async function Page() {
+  const secret = rsc.secret.fetch();
 
   return <>Secret {secret}</>;
 }
