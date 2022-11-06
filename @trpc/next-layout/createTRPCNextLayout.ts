@@ -1,4 +1,4 @@
-import { DehydratedState } from "@tanstack/react-query";
+import type { DehydratedState } from "@tanstack/react-query";
 import {
   AnyProcedure,
   AnyQueryProcedure,
