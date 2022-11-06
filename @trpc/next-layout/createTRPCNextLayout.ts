@@ -13,6 +13,8 @@ import {
 import { createRecursiveProxy } from "@trpc/server/shared";
 import { getRequestStorage } from "./localStorage";
 
+import { dehydrate, QueryClient } from "@tanstack/query-core";
+
 interface CreateTRPCNextLayoutOptions<TRouter extends AnyRouter> {
   router: TRouter;
   createContext: () => MaybePromise<inferRouterContext<TRouter>>;
@@ -73,6 +75,7 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
   function getState() {
     const requestStorage = getRequestStorage<{
       _trpc: {
+        queryClient: QueryClient;
         cache: Record<
           string,
           {
@@ -87,6 +90,7 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     requestStorage._trpc = requestStorage._trpc ?? {
       cache: Object.create(null),
       context: opts.createContext(),
+      queryClient: new QueryClient(),
     };
     return requestStorage._trpc;
   }
@@ -103,32 +107,7 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     if (lastPart === "dehydrate" && path.length === 0) {
       await state.context;
 
-      const dehydratedState: DehydratedState = {
-        queries: [],
-        mutations: [],
-      };
-
-      for (const obj of Object.values(state.cache)) {
-        dehydratedState.queries.push({
-          // Does this matter?
-          queryHash: JSON.stringify(obj.queryKey),
-          queryKey: obj.queryKey,
-          state: {
-            data: obj.data,
-            error: null,
-            dataUpdateCount: 0,
-            dataUpdatedAt: obj.updatedAt.getTime(),
-            errorUpdateCount: 0,
-            errorUpdatedAt: obj.updatedAt.getTime(),
-            fetchFailureCount: 0,
-            fetchFailureReason: null,
-            fetchMeta: null,
-            fetchStatus: "idle",
-            isInvalidated: false,
-            status: "success",
-          },
-        });
-      }
+      const dehydratedState = dehydrate(state.queryClient);
 
       return transformer.serialize(dehydratedState);
     }
@@ -139,27 +118,14 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     const input = callOpts.args[0];
     const queryKey = getQueryKey(path, input);
 
-    const hash = JSON.stringify(transformer.serialize(queryKey));
-    // we could potentially both dedupe requests and return stale results immediately
-    return caller
-      .query(pathStr, input)
-      .then((data) => {
-        state.cache[hash] = {
-          updatedAt: new Date(),
-          data:
-            lastPart === "fetchInfinite"
-              ? {
-                  pages: [data],
-                  pageParams: [undefined],
-                }
-              : data,
-          queryKey,
-        };
-        return data;
-      })
-      .catch((err) => {
-        throw err;
-      });
-    return state.cache[hash];
+    if (lastPart === "fetchInfinite") {
+      return state.queryClient.fetchInfiniteQuery(queryKey, () =>
+        caller.query(pathStr, input),
+      );
+    }
+
+    return state.queryClient.fetchQuery(queryKey, () =>
+      caller.query(pathStr, input),
+    );
   }) as CreateTRPCNextLayout<TRouter>;
 }
