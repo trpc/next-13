@@ -1,9 +1,9 @@
-import { use } from "react";
 import { rsc } from "~/server-rsc/trpc";
 
 type FIXMEType = any;
-export default function Page(props: FIXMEType) {
-  const post = use(rsc.post.byId.fetch({ id: props.params.id }));
+
+export default async function Page(props: FIXMEType) {
+  const post = await rsc.post.byId.fetch({ id: props.params.id });
 
   return (
     <div className='p-4'>

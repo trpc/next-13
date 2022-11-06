@@ -1,10 +1,9 @@
 import { Suspense, use } from "react";
 import { CreatePostForm } from "~/client/CreatePostForm";
-import { serialize } from "~/shared/hydration";
+import { HydrateClient } from "~/client/HydrateClient";
 import { PostList } from "~/components/PostList";
 import { PostListItem } from "~/components/PostListItem";
 import { rsc } from "../server-rsc/trpc";
-import { HydrateClient } from "~/client/HydrateClient";
 
 function PostListSkeleton() {
   return (
@@ -17,9 +16,13 @@ function PostListSkeleton() {
 }
 
 function PostListRSC() {
-  use(rsc.post.list.fetchInfinite({}));
-
-  use(new Promise((resolve) => setTimeout(resolve, 3_00)));
+  use(
+    Promise.all([
+      rsc.post.list.fetchInfinite({}),
+      // Display loading for at least 300ms
+      new Promise((resolve) => setTimeout(resolve, 3_00)),
+    ]),
+  );
 
   return (
     <HydrateClient state={use(rsc.dehydrate())}>
@@ -28,7 +31,7 @@ function PostListRSC() {
   );
 }
 
-export default function Page() {
+export default async function Page() {
   return (
     <div className='space-y-6 p-4'>
       <header>
