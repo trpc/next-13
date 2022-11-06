@@ -1,19 +1,27 @@
 "use client";
 
-import { InfiniteData } from "@tanstack/react-query";
+import { dehydrate, useQueryClient } from "@tanstack/react-query";
 import { Fragment, useEffect, useRef } from "react";
 import { trpc } from "~/client/trpcClient";
-import { PostListItem, PostListOutput } from "./PostListItem";
-import { SerializedResult, useDeserialized } from "../client/hydration";
 import { useIsIntersecting } from "../client/useIsIntersecting";
+import { PostListItem } from "./PostListItem";
 
-export function PostList(props: {
-  initialData: SerializedResult<InfiniteData<PostListOutput>>;
-}) {
+function useRenderCount() {
+  const ref = useRef(0);
+  useEffect(() => {
+    ref.current++;
+  });
+  return ref.current;
+}
+
+export function PostList() {
   const [isLoadMoreVisible, ref] = useIsIntersecting<HTMLDivElement>();
 
-  const initialData = useDeserialized(props.initialData);
-
+  const queryClient = useQueryClient();
+  console.log(
+    `hydrated client (render #${useRenderCount()})`,
+    dehydrate(queryClient),
+  );
   const query = trpc.post.list.useInfiniteQuery(
     {},
     {
@@ -22,7 +30,6 @@ export function PostList(props: {
       },
       refetchOnMount: false,
       staleTime: Infinity,
-      initialData,
     },
   );
 

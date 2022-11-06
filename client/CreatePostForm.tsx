@@ -29,7 +29,6 @@ export function CreatePostForm() {
         };
         try {
           await addPost.mutateAsync(input);
-          router.refresh();
 
           $form.reset();
         } catch (cause) {

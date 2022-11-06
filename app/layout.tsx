@@ -1,12 +1,13 @@
 import "./global.css";
 
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, use } from "react";
 import { ClientProvider } from "~/client/trpcClient";
 import { rsc } from "../server-rsc/trpc";
 
 export default function RootLayout(props: PropsWithChildren) {
-  const user = rsc.whoami.use();
+  const user = use(rsc.whoami.fetch());
+
   return (
     <ClientProvider>
       <html lang='en'>

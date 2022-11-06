@@ -1,7 +1,7 @@
 import { rsc } from "../../server-rsc/trpc";
 
-export default function Page() {
-  const secret = rsc.secret.use();
+export default async function Page() {
+  const secret = await rsc.secret.fetch();
 
   return <>Secret {secret}</>;
 }

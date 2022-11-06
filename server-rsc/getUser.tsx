@@ -1,6 +1,15 @@
+import { AsyncLocalStorage } from "async_hooks";
 import { getToken } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
+interface LocalStorageContext {
+  trpc: {};
+}
+const asyncStorage: AsyncLocalStorage<LocalStorageContext> =
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require("next/dist/client/components/request-async-storage").requestAsyncStorage;
+
+asyncStorage.getStore();
 export interface User {
   id: string;
   email: string;
