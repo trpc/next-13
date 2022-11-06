@@ -1,4 +1,4 @@
-import { DehydratedState, QueryKey } from "@tanstack/react-query";
+import { DehydratedState } from "@tanstack/react-query";
 import {
   AnyProcedure,
   AnyQueryProcedure,
@@ -76,14 +76,6 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     const requestStorage = getRequestStorage<{
       _trpc: {
         queryClient: QueryClient;
-        cache: Record<
-          string,
-          {
-            updatedAt: Date;
-            data: unknown;
-            queryKey: QueryKey;
-          }
-        >;
         context: inferRouterContext<TRouter>;
       };
     }>();
@@ -103,11 +95,20 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     const lastPart = path.pop();
     const state = getState();
     const ctx = await state.context;
+    const { queryClient } = state;
 
     if (lastPart === "dehydrate" && path.length === 0) {
-      await state.context;
-
-      const dehydratedState = dehydrate(state.queryClient);
+      if (queryClient.isFetching()) {
+        await new Promise<void>((resolve) => {
+          const unsub = queryClient.getQueryCache().subscribe((event) => {
+            if (event?.query.getObserversCount() === 0) {
+              resolve();
+              unsub();
+            }
+          });
+        });
+      }
+      const dehydratedState = dehydrate(queryClient);
 
       return transformer.serialize(dehydratedState);
     }
@@ -119,13 +120,11 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
     const queryKey = getQueryKey(path, input);
 
     if (lastPart === "fetchInfinite") {
-      return state.queryClient.fetchInfiniteQuery(queryKey, () =>
+      return queryClient.fetchInfiniteQuery(queryKey, () =>
         caller.query(pathStr, input),
       );
     }
 
-    return state.queryClient.fetchQuery(queryKey, () =>
-      caller.query(pathStr, input),
-    );
+    return queryClient.fetchQuery(queryKey, () => caller.query(pathStr, input));
   }) as CreateTRPCNextLayout<TRouter>;
 }
