@@ -1,3 +1,4 @@
+import { HydrateClient } from "~/client/HydrateClient";
 import { rsc } from "~/server-rsc/trpc";
 
 type FIXMEType = any;
@@ -6,19 +7,21 @@ export default async function Page(props: FIXMEType) {
   const post = await rsc.post.byId.fetch({ id: props.params.id });
 
   return (
-    <div className='p-4'>
-      <article className='p-4 shadow-md bg-white overflow-hidden rounded-md prose'>
-        <h1>{post.title}</h1>
+    <HydrateClient state={await rsc.dehydrate()}>
+      <div className='p-4'>
+        <article className='p-4 shadow-md bg-white overflow-hidden rounded-md prose'>
+          <h1>{post.title}</h1>
 
-        {post.text.split("\n").map((line, i) => (
-          <p key={i}>{line}</p>
-        ))}
+          {post.text.split("\n").map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
 
-        <details>
-          <summary>Raw data</summary>
-          <pre>{JSON.stringify(post, null, 4)}</pre>
-        </details>
-      </article>
-    </div>
+          <details>
+            <summary>Raw data</summary>
+            <pre>{JSON.stringify(post, null, 4)}</pre>
+          </details>
+        </article>
+      </div>
+    </HydrateClient>
   );
 }
