@@ -1,5 +1,7 @@
 Just started hacking a bit with tRPC and Next 13. 
 
+This is not anywhere closed to the finished design and just a playground for our own exploration.
+
 
 ## Overview
 
