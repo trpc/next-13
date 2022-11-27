@@ -30,6 +30,7 @@ export function PostList() {
       },
       refetchOnMount: false,
       staleTime: Infinity,
+      suspense: true,
     },
   );
 
