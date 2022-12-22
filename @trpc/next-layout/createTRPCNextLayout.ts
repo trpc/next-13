@@ -28,10 +28,10 @@ export type DecorateProcedure<TProcedure extends AnyProcedure> =
   TProcedure extends AnyQueryProcedure
     ? {
         fetch(
-          input: inferProcedureInput<TProcedure>,
+          input: inferProcedureInput<TProcedure>
         ): Promise<inferProcedureOutput<TProcedure>>;
         fetchInfinite(
-          input: inferProcedureInput<TProcedure>,
+          input: inferProcedureInput<TProcedure>
         ): Promise<inferProcedureOutput<TProcedure>>;
       }
     : never;
@@ -47,7 +47,7 @@ type OmitNever<TType> = Pick<
  */
 export type DecoratedProcedureRecord<
   TProcedures extends ProcedureRouterRecord,
-  TPath extends string = "",
+  TPath extends string = ""
 > = OmitNever<{
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
     ? DecoratedProcedureRecord<
@@ -65,12 +65,24 @@ type CreateTRPCNextLayout<TRouter extends AnyRouter> = DecoratedProcedureRecord<
   dehydrate(): Promise<DehydratedState>;
 };
 
-function getQueryKey(path: string[], input: unknown) {
-  return input === undefined ? [path] : [path, input];
+function getQueryKey(
+  path: string[],
+  input: unknown,
+  isFetchInfinite?: boolean
+) {
+  return input === undefined
+    ? [path, { type: isFetchInfinite ? "infinite" : "query" }] // We added { type: "infinite" | "query"  }, because it is how trpc v10.0 format the new queryKeys
+    : [
+        path,
+        {
+          input: { ...input },
+          type: isFetchInfinite ? "infinite" : "query",
+        },
+      ];
 }
 
 export function createTRPCNextLayout<TRouter extends AnyRouter>(
-  opts: CreateTRPCNextLayoutOptions<TRouter>,
+  opts: CreateTRPCNextLayoutOptions<TRouter>
 ): CreateTRPCNextLayout<TRouter> {
   function getState() {
     const requestStorage = getRequestStorage<{
@@ -117,11 +129,11 @@ export function createTRPCNextLayout<TRouter extends AnyRouter>(
 
     const pathStr = path.join(".");
     const input = callOpts.args[0];
-    const queryKey = getQueryKey(path, input);
+    const queryKey = getQueryKey(path, input, lastPart === "fetchInfinite");
 
     if (lastPart === "fetchInfinite") {
       return queryClient.fetchInfiniteQuery(queryKey, () =>
-        caller.query(pathStr, input),
+        caller.query(pathStr, input)
       );
     }
 
