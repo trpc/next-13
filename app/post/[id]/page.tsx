@@ -1,9 +1,13 @@
 import { HydrateClient } from "~/client/HydrateClient";
 import { rsc } from "~/server-rsc/trpc";
 
-type FIXMEType = any;
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
-export default async function Page(props: FIXMEType) {
+export default async function Page(props: Props) {
   const post = await rsc.post.byId.fetch({ id: props.params.id });
 
   return (
